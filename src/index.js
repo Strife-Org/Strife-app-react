@@ -13,7 +13,7 @@ ipcRenderer.on('user-data', (e, data) => {
   window.socket = io(data.serverUrl)
   ReactDOM.render(
     <React.StrictMode>
-      <App userData={data} />
+      <App savedData={data} />
     </React.StrictMode>,
     document.getElementById('root')
   );

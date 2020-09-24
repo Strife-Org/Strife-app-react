@@ -4,11 +4,11 @@ import Login from "./Login";
 import ReactGA from "react-ga";
 
 export default function CustomRouter(props) {
-  if (props.userData.apiKey !== undefined) {
+  if (props.savedData.apiKey !== undefined) {
     ReactGA.pageview("/main");
-    return <Main  userData={props.userData} onLogout={props.onLogout} />;
+    return <Main  savedData={props.savedData} onLogout={props.onLogout} />;
   } else {
     ReactGA.pageview("/login");
-    return <Login userData={props.userData} />;
+    return <Login savedData={props.savedData} />;
   }
 }

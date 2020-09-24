@@ -4,10 +4,7 @@ const fs = require("fs");
 
 const userDataPath = (electron.app || electron.remote.app).getPath("userData");
 //C:\Users\{USER}\AppData\Roaming\app-react\
-const dataPath = path.join(userDataPath, 'saved-data.json');
-console.log(dataPath)
-
-console.log(dataPath);
+const dataPath = path.join(userDataPath, "saved-data.json");
 
 var data = readData(dataPath);
 
@@ -21,10 +18,10 @@ function readData() {
 }
 
 data.save = () => {
-    var savedData = data;
-    fs.writeFileSync(dataPath, JSON.stringify(savedData));
-}
+  var savedData = data;
+  fs.writeFileSync(dataPath, JSON.stringify(savedData));
+};
 
-data.save()
+data.save();
 
-module.exports = data
+module.exports = data;

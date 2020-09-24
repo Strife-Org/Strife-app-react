@@ -13,7 +13,7 @@ export default class Login extends Component {
       if (!opened) {
         ipcRenderer.send(
           "external",
-          props.userData.serverUrl + "auth/github?k=" + k
+          props.savedData.serverUrl + "auth/github?k=" + k
         );
         opened = true
         setTimeout(() => {opened = false}, 1000)

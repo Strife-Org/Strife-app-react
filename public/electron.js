@@ -6,9 +6,6 @@ const {
   BrowserWindow,
   ipcMain,
   shell,
-  Tray,
-  Menu,
-  nativeImage,
 } = electron;
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -48,7 +45,6 @@ app.on("activate", () => {
 app.setAppUserModelId(process.execPath);
 
 ipcMain.on("save-config", (event, newConfig) => {
-  console.log(newConfig)
   appData.apiKey = newConfig.apiKey;
   appData.save();
 });
@@ -58,10 +54,7 @@ ipcMain.on("notify", () => {
 })
 
 ipcMain.on("ready-for-data", () => {
-  let data = appData;
-  data.save = undefined;
-  
-  mainWindow.webContents.send("user-data", data);
+  mainWindow.webContents.send("user-data", JSON.parse(JSON.stringify(appData)));
 })
 
 ipcMain.on("external", (event, url) => {
