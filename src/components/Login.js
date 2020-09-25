@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import LoginButton from "./login/LoginButton";
 import Logo from "./Logo";
-import '../css/login.css'
-const { ipcRenderer } = window.require("electron");
-
-var keysRequested = false;
-var opened = false;
+import '../css/login.css';
 
 export default class Login extends Component {
   render() {

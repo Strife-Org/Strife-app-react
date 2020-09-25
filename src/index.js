@@ -5,13 +5,8 @@ import App from "./App";
 import firebase from "firebase/app";
 import "firebase/auth";
 import {
-  FirebaseAuthProvider,
-  FirebaseAuthConsumer,
-  IfFirebaseAuthed,
-  IfFirebaseAuthedAnd,
+  FirebaseAuthProvider
 } from "@react-firebase/auth";
-const electron = window.require("electron");
-const ipcRenderer = electron.ipcRenderer;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcVgUKp9PQlA4f0gO_NK-nQ5vNMQLVLEM",

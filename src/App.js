@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CustomRouter from "./components/CustomRouter";
 import ReactGA from "react-ga";
-import axios from "axios";
 const { ipcRenderer } = window.require("electron");
 ReactGA.initialize("UA-178747021-2");
 

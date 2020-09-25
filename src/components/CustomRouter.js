@@ -3,10 +3,7 @@ import Main from "./Main";
 import Login from "./Login";
 import ReactGA from "react-ga";
 import {
-  FirebaseAuthProvider,
   FirebaseAuthConsumer,
-  IfFirebaseAuthed,
-  IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
 
 export default function CustomRouter(props) {
