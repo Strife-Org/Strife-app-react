@@ -1,10 +1,9 @@
-@media only screen and (max-width: 1024px) {
-  ::selection {
-    background: rgb(235, 233, 233);
-  }
+::selection {
+  background: rgb(235, 233, 233);
+}
 
   body {
-    background: url(../imgs/BG.jpg);
+    background: url(../imgs-src/BG.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
@@ -20,6 +19,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    display: grid;
+    gap: 1rem;
     overflow: hidden;
     transform: translate(-50%, -50%);
     box-shadow: 1px 1px 10px;
@@ -27,7 +28,6 @@
   }
 
   .loginBox {
-    box-shadow: 1px 1px 10px;
     background-color: transparent;
     margin-top: 1vw;
     border-radius: 12px;
@@ -35,7 +35,7 @@
     font-weight: 500;
     line-height: 41px;
     text-align: center;
-    width: 80%;
+
     overflow: auto;
     position: relative;
     left: 7%;
@@ -48,14 +48,8 @@
   .loginBox:hover {
     background-color: blue;
     color: white;
-    box-shadow: 0px 0px 30px blue;
     padding-top: 20px;
     padding-bottom: 20px;
-  }
-
-  .loginBox > h1:hover {
-    text-shadow: 0px 0px 10px white;
-    transition: ease-in-out 100ms;
   }
 
   .loginText {
@@ -73,10 +67,6 @@
   .github {
     background: black;
     margin-top: 5em;
-  }
-
-  .google {
-    background: #45813f;
   }
 
   .logo {
@@ -102,10 +92,6 @@
     font-weight: bold;
   }
 
-  .fullscrnWarning{
-    visibility: hidden;
-  }
-
   @keyframes textAnim {
     25% {
       content: "Developers";
@@ -123,4 +109,3 @@
       content: "You";
     }
   }
-}
