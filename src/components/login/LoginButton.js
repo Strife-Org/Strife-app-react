@@ -26,15 +26,9 @@ export default function LoginButton(props) {
     });
   }
   return (
-<<<<<<< HEAD
     <button onClick={handleClick}>
       <Icon icon={props.provider} />
       Log-in with {props.provider}
-=======
-    <button onClick={handleClick} className="loginBox github">
-      <Icon icon="github" />
-      Log-in with github
->>>>>>> de8547c05b302575eae6448d1f9a91050756582c
     </button>
   );
 }
