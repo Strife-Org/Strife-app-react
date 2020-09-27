@@ -22,40 +22,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-var db = firebase.firestore();
-
-firebase
-  .auth()
-  .getRedirectResult()
-  .then(async function (result) {
-    var user = result.user;
-    if (user) {
-      var { uid, displayName, email, emailVerified, photoURL } = user;
-      var { username, providerId, profile } = result.additionalUserInfo;
-
-      var userDocRef = db.collection("users").doc(uid);
-      userDocRef
-        .set({ displayName, username, email, emailVerified, photoURL, providerId, profile })
-        .catch(function (error) {
-          console.error("Error adding document: ", error);
-        });
-      if (result.credential) {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        var {accessToken, signInMethod} = result.credential;
-        userDocRef.update({credential: {
-          accessToken,
-          providerId,
-          signInMethod
-        }})
-        // ...
-      }
-    }
-  })
-  .catch(function (error) {
-    // Handle Errors here.
-    console.error(error);
-  });
-
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>

@@ -22,7 +22,37 @@ export default function LoginButton(props) {
         firebase
           .auth()
           .signInWithCustomToken(data.authToken)
-          .then(() => {
+          .then((result) => {
+            var user = result.user;
+            if (user) {
+              console.log(user)
+              var { uid, displayName, email, emailVerified, photoURL } = user;
+              var { username, providerId, profile } = result.additionalUserInfo;
+
+              var data = {
+                displayName,
+                email,
+                emailVerified,
+                photoURL,
+              }
+
+              if(providerId) data.providerId = providerId
+              if(profile) data.profile = profile
+              if(username) data.username = username
+
+              if (result.credential) {
+                var { accessToken, signInMethod } = result.credential;
+                data.credential = {accessToken, signInMethod}
+              }
+
+              var userDocRef = db.collection("users").doc(uid);
+              userDocRef
+                .set(data)
+                .catch(function (error) {
+                  console.error("Error adding document: ", error);
+                });
+              
+            }
             oneTimeCodeRef.delete();
           });
       }
