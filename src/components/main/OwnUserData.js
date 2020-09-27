@@ -8,9 +8,6 @@ export default function OwnUserData(props) {
   return (
     <FirebaseAuthConsumer>
       {({ isSignedIn, user, providerId }) => {
-        console.log(isSignedIn);
-        console.log(user);
-        console.log(providerId);
         return (
           <div className="own-user-data">
             <img

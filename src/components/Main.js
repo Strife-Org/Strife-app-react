@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import OwnUserData from "./main/OwnUserData";
 import Conversations from "./main/Conversations";
 import CurrentConversation from "./main/CurrentConversation";
 
-export default class Main extends Component {
-
-  render() {
-    console.log(this.props);
+export default function Main(props) {
     return (
       <div className="container">
         <OwnUserData />
@@ -15,4 +12,3 @@ export default class Main extends Component {
       </div>
     );
   }
-}

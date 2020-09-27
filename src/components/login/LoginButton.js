@@ -3,23 +3,35 @@ import ReactGA from "react-ga";
 import Icon from "../Icon";
 import firebase from "firebase/app";
 import "firebase/auth";
-import '../../css/login.css'
+import "firebase/firestore";
+import "../../css/login.css";
+import { v4 } from "uuid";
+const { ipcRenderer } = window.require("electron");
 
 export default function LoginButton(props) {
+  var db = firebase.firestore();
   function handleClick() {
+    const id = v4();
 
-    var provider;
-    switch (props.provider) {
-      case "github":
-        provider = new firebase.auth.GithubAuthProvider();
-        break;
-      case "google":
-        provider = new firebase.auth.GoogleAuthProvider();
-        break;
-      default:
-        console.log("Unsupported provider")
-    }
-    firebase.auth().signInWithRedirect(provider);
+    const oneTimeCodeRef = db.collection(`ot-auth-codes`).doc(id);
+
+    var unsubscribe = oneTimeCodeRef.onSnapshot(async function (doc) {
+      const data = doc.data();
+      if (data) {
+        unsubscribe();
+        firebase
+          .auth()
+          .signInWithCustomToken(data.authToken)
+          .then(() => {
+            oneTimeCodeRef.delete();
+          });
+      }
+    });
+
+    const url = `https://strife-app-cd19a.web.app/?provider=${props.provider}&ot-auth-code=${id}`;
+
+    ipcRenderer.send("external", url);
+
     ReactGA.event({
       category: "User",
       action: "Login button click",

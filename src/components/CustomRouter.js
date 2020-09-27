@@ -7,7 +7,6 @@ import {
 } from "@react-firebase/auth";
 
 export default function CustomRouter(props) {
-  console.log(props);
 
   ReactGA.pageview("/login");
   return (
