@@ -2,7 +2,7 @@ import React from "react";
 import {
   FirebaseAuthConsumer,
 } from "@react-firebase/auth";
-import SignoutButton from '../SignoutButton'
+import SignoutButton from './SignoutButton'
 
 export default function OwnUserData(props) {
   return (

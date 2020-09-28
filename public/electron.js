@@ -58,6 +58,5 @@ ipcMain.on("ready-for-data", () => {
 })
 
 ipcMain.on("external", (event, url) => {
-  console.log(url)
   shell.openExternal(url);
 })

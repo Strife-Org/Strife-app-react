@@ -1,7 +1,7 @@
 import React from "react";
-import OwnUserData from "./main/OwnUserData";
-import Conversations from "./main/Conversations";
-import CurrentConversation from "./main/CurrentConversation";
+import OwnUserData from "./OwnUserData";
+import Conversations from "./Conversations";
+import CurrentConversation from "./CurrentConversation";
 
 export default function Main(props) {
     return (

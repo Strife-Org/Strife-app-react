@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import LoginButton from "./login/LoginButton";
+import LoginButton from "./LoginButton";
 import Logo from "./Logo";
-import '../css/login.css';
 
 export default class Login extends Component {
   render() {

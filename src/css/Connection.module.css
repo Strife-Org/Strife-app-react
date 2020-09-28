@@ -1,0 +1,10 @@
+.displayName {
+    display: inline-block;
+}
+
+.profileImg {
+    height: 32px;
+    width: 32px;
+    object-fit: cover;
+    border-radius: 10px;
+}
