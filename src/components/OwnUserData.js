@@ -4,6 +4,8 @@ import {
 } from "@react-firebase/auth";
 import SignoutButton from './SignoutButton'
 
+import styles from "./styles/OwnUserData.module.css"
+
 export default function OwnUserData(props) {
   return (
     <FirebaseAuthConsumer>
@@ -14,9 +16,9 @@ export default function OwnUserData(props) {
               src={user.photoURL}
               alt="Own Profile"
               height="32"
-              className="profileImg"
+              className={styles.profileImg}
             />
-            <h2 className="userName">{user.displayName || user.username}</h2>
+            <h2 className={styles.displayName}>{user.displayName || user.username}</h2>
             <SignoutButton />
           </div>
         );

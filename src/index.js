@@ -5,6 +5,7 @@ import App from "./App";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/analytics"
 import { FirebaseAuthProvider } from "@react-firebase/auth";
 
 import { FirestoreProvider } from "@react-firebase/firestore";
@@ -21,6 +22,8 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+firebase.analytics()
 
 ReactDOM.render(
   <React.StrictMode>

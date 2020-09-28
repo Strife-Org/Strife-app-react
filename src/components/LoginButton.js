@@ -1,5 +1,4 @@
 import React from "react";
-import ReactGA from "react-ga";
 import Icon from "./Icon";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -53,10 +52,7 @@ export default function LoginButton(props) {
 
     ipcRenderer.send("external", url);
 
-    ReactGA.event({
-      category: "User",
-      action: "Login button click",
-    });
+    firebase.analytics().logEvent("sign-in", {provider: props.provider})
   }
   return (
     <button onClick={handleClick}>

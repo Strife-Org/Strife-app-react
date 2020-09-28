@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import CustomRouter from "./components/CustomRouter";
-import ReactGA from "react-ga";
 const { ipcRenderer } = window.require("electron");
-ReactGA.initialize("UA-178747021-2");
-
 export default class App extends Component {
   constructor(props) {
     super();

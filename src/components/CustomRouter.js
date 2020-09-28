@@ -1,14 +1,11 @@
 import React from "react";
 import Main from "./Main";
 import Login from "./Login";
-import ReactGA from "react-ga";
 import {
   FirebaseAuthConsumer,
 } from "@react-firebase/auth";
 
 export default function CustomRouter(props) {
-
-  ReactGA.pageview("/login");
   return (
     <FirebaseAuthConsumer>
       {({ isSignedIn, user, providerId }) => {

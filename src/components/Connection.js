@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from "../css/Connection.module.css"
+import styles from "./styles/Connection.module.css"
 
 export default function Connection({data}) {
     console.log(data)
