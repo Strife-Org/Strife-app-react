@@ -19,33 +19,11 @@ export default function LoginButton(props) {
         unsubscribe();
         firebase
           .auth()
-          .signInWithCustomToken(data.authToken)
-          .then((result) => {
-            // var user = result.user;
-            // if (user) {
-            //   var { uid, displayName, email, emailVerified, photoURL } = user;
-            //   var { username, providerId, profile } = result.additionalUserInfo;
-            //   var data = {
-            //     displayName,
-            //     email,
-            //     emailVerified,
-            //     photoURL,
-            //   }
-            //   if(providerId) data.providerId = providerId
-            //   if(profile) data.profile = profile
-            //   if(username) data.username = username
-            //   if (result.credential) {
-            //     var { accessToken, signInMethod } = result.credential;
-            //     data.credential = {accessToken, signInMethod}
-            //   }
-            //   var userDocRef = db.collection("users").doc(uid);
-            //   userDocRef
-            //     .set(data)
-            //     .catch(function (error) {
-            //       console.error("Error adding document: ", error);
-          });
+          .signInWithCustomToken(data.authToken).then(() => {
+            oneTimeCodeRef.delete();
+          })
       }
-      oneTimeCodeRef.delete();
+      
     });
 
     const url = `https://strife-app-cd19a.web.app/?provider=${props.provider}&ot-auth-code=${id}`;

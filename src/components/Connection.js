@@ -2,10 +2,10 @@ import React from 'react'
 
 import styles from "./styles/Connection.module.css"
 
-export default function Connection({data}) {
+export default function Connection({data, onClick}) {
     console.log(data)
     return (
-        <div>
+        <div onClick={onClick}>
             <img
               src={data.user.photoURL}
               alt={`${data.user.displayName}'s profile`}

@@ -10,7 +10,7 @@ export default function CustomRouter(props) {
     <FirebaseAuthConsumer>
       {({ isSignedIn, user, providerId }) => {
         if (!isSignedIn) {
-          return <Login savedData={props.savedData} />;
+          return <Login />;
         } else {
           return <Main />;
         }

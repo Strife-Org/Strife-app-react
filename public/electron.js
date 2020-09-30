@@ -1,12 +1,7 @@
 const electron = require("electron");
 var appData = require("./fileHandler");
 // initialize app
-const {
-  app,
-  BrowserWindow,
-  ipcMain,
-  shell,
-} = electron;
+const { app, BrowserWindow, ipcMain, shell } = electron;
 const path = require("path");
 const isDev = require("electron-is-dev");
 let mainWindow;
@@ -25,7 +20,11 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
-  
+  const { setup: setupPushReceiver } = require("electron-push-receiver");
+
+  // Call it before 'did-finish-load' with mainWindow a reference to your window
+  setupPushReceiver(mainWindow.webContents);
+
   mainWindow.on("closed", () => (mainWindow = null));
 }
 // load window when app is ready
@@ -51,12 +50,12 @@ ipcMain.on("save-config", (event, newConfig) => {
 
 ipcMain.on("notify", () => {
   //handle notifications here
-})
+});
 
 ipcMain.on("ready-for-data", () => {
   mainWindow.webContents.send("user-data", JSON.parse(JSON.stringify(appData)));
-})
+});
 
 ipcMain.on("external", (event, url) => {
   shell.openExternal(url);
-})
+});
