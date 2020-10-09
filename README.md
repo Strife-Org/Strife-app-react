@@ -1,3 +1,17 @@
+## How to Install?
+Run
+`npm i`
+
+## How to Run
+Run
+`npm run electron-dev`
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
