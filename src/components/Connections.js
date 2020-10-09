@@ -14,7 +14,6 @@ export default class Conversations extends Component {
   newConversationData = (querySnapshot) => {
     var connections = [];
     querySnapshot.forEach((doc) => {
-        console.log(doc)
         var data = doc.data()
         data.id = doc.id
         delete data.users[firebase.auth().currentUser.uid]
@@ -22,7 +21,6 @@ export default class Conversations extends Component {
         data.user.id = Object.keys(data.users)[0]
       connections.push(data);
     });
-    console.log(connections);
     this.setState({ connections: connections });
   };
 
@@ -35,10 +33,9 @@ export default class Conversations extends Component {
   }
 
   render() {
-    console.log(this.state.connections);
     const connectionsList = this.state.connections.map((connection) => (
       <li key={connection.id}>
-        <Connection data={connection} />
+        <Connection data={connection} onClick={() => this.props.changeConversationId(connection.id)} />
       </li>
     ));
     return <ul>{connectionsList}</ul>;

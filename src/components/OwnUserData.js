@@ -3,6 +3,7 @@ import {
   FirebaseAuthConsumer,
 } from "@react-firebase/auth";
 import SignoutButton from './SignoutButton'
+import AddContact from './AddContact'
 
 import styles from "./styles/OwnUserData.module.css"
 
@@ -20,6 +21,7 @@ export default function OwnUserData(props) {
             />
             <h2 className={styles.displayName}>{user.displayName || user.username}</h2>
             <SignoutButton />
+            <AddContact />
           </div>
         );
       }}

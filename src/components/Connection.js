@@ -3,9 +3,8 @@ import React from 'react'
 import styles from "./styles/Connection.module.css"
 
 export default function Connection({data, onClick}) {
-    console.log(data)
     return (
-        <div onClick={onClick}>
+        <button onClick={onClick}>
             <img
               src={data.user.photoURL}
               alt={`${data.user.displayName}'s profile`}
@@ -13,6 +12,6 @@ export default function Connection({data, onClick}) {
               className={styles.profileImg}
             />
             <h2 className={styles.displayName} >{data.user.displayName}</h2>
-        </div>
+        </button>
     )
 }
