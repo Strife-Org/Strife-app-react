@@ -6,6 +6,7 @@ import Message from "./Message";
 
 class Messages extends React.Component {
   db = firebase.firestore();
+  unsubscribe;
 
   state = {
     messages: [],
@@ -24,7 +25,8 @@ class Messages extends React.Component {
   };
 
   componentDidMount() {
-    this.db
+    console.log(this.props.conversationId)
+    this.unsubscribe = this.db
       .collection("connections")
       .doc(this.props.conversationId)
       .collection("messages")
@@ -33,7 +35,19 @@ class Messages extends React.Component {
       .onSnapshot(this.newConversationData);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.unsubscribe();
+    this.unsubscribe = this.db
+      .collection("connections")
+      .doc(nextProps.conversationId)
+      .collection("messages")
+      .orderBy("sentAt", "desc")
+      .limit(20)
+      .onSnapshot(this.newConversationData);
+  }
+
   render() {
+    console.log(this.props.conversationId)
     if (this.props.conversationId) {
       return this.state.isLoading ? (
         "Loading"
