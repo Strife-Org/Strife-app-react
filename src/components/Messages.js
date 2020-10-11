@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import Message from "./Message";
+import Loader from "react-loader-spinner";
 
 class Messages extends React.Component {
   db = firebase.firestore();
@@ -25,7 +26,6 @@ class Messages extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.conversationId)
     this.unsubscribe = this.db
       .collection("connections")
       .doc(this.props.conversationId)
@@ -35,11 +35,11 @@ class Messages extends React.Component {
       .onSnapshot(this.newConversationData);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate() {
     this.unsubscribe();
     this.unsubscribe = this.db
       .collection("connections")
-      .doc(nextProps.conversationId)
+      .doc(this.props.conversationId)
       .collection("messages")
       .orderBy("sentAt", "desc")
       .limit(20)
@@ -47,10 +47,15 @@ class Messages extends React.Component {
   }
 
   render() {
-    console.log(this.props.conversationId)
     if (this.props.conversationId) {
       return this.state.isLoading ? (
-        "Loading"
+        <Loader
+              type="TailSpin"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              timeout={3000} //3 secs
+            />
       ) : (
         <ul>
           {this.state.messages.map((message) => {

@@ -43,8 +43,10 @@ function createWindow() {
     event.preventDefault();
     mainWindow.hide();
   });
-
-  console.log();
+}
+// load window when app is ready
+app.on("ready", () => {
+  createWindow();
 
   let trayIcon = nativeImage.createFromPath(
     path.join(__dirname, "imgs/LogoColour.png")
@@ -72,9 +74,7 @@ function createWindow() {
   });
   tray.setToolTip("Strife");
   tray.setContextMenu(contextMenu);
-}
-// load window when app is ready
-app.on("ready", createWindow);
+});
 // set up for mac
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -94,10 +94,10 @@ ipcMain.on("save-config", (event, newConfig) => {
   appData.save();
 });
 
-ipcMain.on('show-window', () => {
+ipcMain.on("show-window", () => {
   mainWindow.show();
   mainWindow.focus();
-})
+});
 
 ipcMain.on("ready-for-data", () => {
   mainWindow.webContents.send("user-data", JSON.parse(JSON.stringify(appData)));

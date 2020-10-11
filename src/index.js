@@ -8,7 +8,7 @@ import "firebase/firestore";
 import "firebase/functions";
 import "firebase/analytics";
 import "firebase/performance";
-import "firebase/messaging";
+import "firebase/remote-config";
 import { FirebaseAuthProvider } from "@react-firebase/auth";
 
 import { FirestoreProvider } from "@react-firebase/firestore";
@@ -181,6 +181,15 @@ ipcRenderer.on(NOTIFICATION_RECEIVED, (_, serverNotificationPayload) => {
 const senderId = "728118645988";
 ipcRenderer.send(START_NOTIFICATION_SERVICE, senderId);
 
+const remoteConfig = firebase.remoteConfig();
+remoteConfig.settings = {
+  minimumFetchIntervalMillis: 60000,
+};
+
+window.remoteConfig = remoteConfig
+
+remoteConfig.fetchAndActivate().then(() => {
+
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
@@ -191,3 +200,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+
+})

@@ -36,7 +36,6 @@ export default class Main extends Component {
     }
   }
   render() {
-    console.log(this.state.currentConversation)
     return (
       <div className="container">
         <OwnUserData />
