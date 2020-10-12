@@ -27,7 +27,7 @@ export default class Conversations extends Component {
   componentDidMount() {
     this.db
       .collection("connections")
-      .where("accepted", "==", true)
+      .where("accepted", "==", 1)
       .where(`users.${firebase.auth().currentUser.uid}.exists`, "==", true)
       .onSnapshot(this.newConversationData);
   }

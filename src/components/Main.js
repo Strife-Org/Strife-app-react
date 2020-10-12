@@ -15,7 +15,7 @@ export default class Main extends Component {
       firebase
         .firestore()
         .collection("connections")
-        .where("accepted", "==", true)
+        .where("accepted", "==", 1)
         .where(`users.${firebase.auth().currentUser.uid}.exists`, "==", true)
         .limit(1)
         .get()

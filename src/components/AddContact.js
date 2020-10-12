@@ -93,9 +93,11 @@ export default () => {
                       .firestore()
                       .collection("connections")
                       .add({
-                        accepted: false,
+                        accepted: 0,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         users: users,
+                        requester: firebase.auth().currentUser.uid,
+                        requested: contact.uid
                       })
                       .then(() => {
                         setLoading(false);
