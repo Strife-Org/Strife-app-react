@@ -183,7 +183,7 @@ ipcRenderer.send(START_NOTIFICATION_SERVICE, senderId);
 
 const remoteConfig = firebase.remoteConfig();
 remoteConfig.settings = {
-  minimumFetchIntervalMillis: 60000,
+  minimumFetchIntervalMillis: 120000,
 };
 
 window.remoteConfig = remoteConfig
