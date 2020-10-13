@@ -1,21 +1,24 @@
 .message {
-    padding: 10px;
-    display: block;
-    margin: 0 !important;
-    /* display: inline-block; */
-    color: white;
+  padding: 10px;
+  display: block;
+  margin: 10px !important;
+  color: white;
+  justify-content: center;
+  padding: 10px 20px 10px 20px;
 }
 
 .own {
   background: blue;
-  /* text-align: left; */
+  text-align: left;
   border-radius: 15px;
   margin-left: 10px;
+  align-self: flex-end;
 }
 
 .other {
   background: gray;
-  /* text-align: right; */
+  text-align: right;
   border-radius: 12px;
   margin-right: 10px;
+  align-self: flex-start;
 }

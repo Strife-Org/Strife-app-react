@@ -5,6 +5,8 @@ import "firebase/firestore";
 import Message from "./Message";
 import Loader from "react-loader-spinner";
 
+import styles from "./styles/Messages.module.css";
+
 class Messages extends React.Component {
   db = firebase.firestore();
   unsubscribe;
@@ -54,10 +56,10 @@ class Messages extends React.Component {
               color="#00BFFF"
               height={100}
               width={100}
-              timeout={3000} //3 secs
+              timeout={5000} //3 secs
             />
       ) : (
-        <ul>
+        <ul className={styles.msgContainer}>
           {this.state.messages.map((message) => {
             return (
               <Message
