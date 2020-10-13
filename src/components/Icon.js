@@ -4,6 +4,7 @@ import Google from './icons/Google'
 import Signout from './icons/Signout'
 import AddContact from './icons/AddContact'
 import Question from './icons/Question'
+import File from './icons/File'
 
 export default function Icon(props) {
     switch(props.icon) {
@@ -17,6 +18,8 @@ export default function Icon(props) {
             return (<AddContact onClick={props.onClick} />)
         case "question":
             return (<Question onClick={props.onClick} />)
+        case "file":
+            return (<File onClick={props.onClick} />)
         default:
             return (<div />)
     }

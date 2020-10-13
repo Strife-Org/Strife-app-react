@@ -11,7 +11,6 @@ function ConnectionRequests({ requests }) {
   return (
     <ul className={styles.requestsList}>
       {requests.map((request) => {
-        console.log(request);
         return (
           <li key={request.id} className={styles.request}>
             <UserData
@@ -68,7 +67,6 @@ export default class ConnectionRequestsButton extends Component {
   }
 
   render() {
-    console.log(this.state.connectionRequests);
     return (
       <Popup
         trigger={
