@@ -24,9 +24,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "react-build": "react-scripts build",
+    "build": "react-scripts build",
     "electron-build": "electron-builder build",
-    "build": "react-scripts build && electron-builder build",
+    "full-build": "react-scripts build && electron-builder build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
@@ -52,6 +52,13 @@
     "wait-on": "^5.2.0",
     "electron-builder": "^22.9.1",
     "cross-env": "^7.0.2"
+  },
+  "build": {
+    "directories": {
+      "buildResources": "buildResources"
+    },
+    "productName": "Strife Chat",
+    "copyright": "Copyright © 2020 ${author}"
   },
   "main": "public/electron.js",
   "homepage": "."
