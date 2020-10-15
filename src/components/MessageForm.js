@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import firebase from "firebase/app";
-import "firebase/firestore";
+import "firebase/database";
 
 import FileUploader from "./FileUploader";
 
@@ -17,16 +17,15 @@ function MessageForm(props) {
         action="#"
         onSubmit={(e) => {
           e.preventDefault();
-          firebase
-            .firestore()
-            .collection("connections")
-            .doc(props.conversationId)
-            .collection("messages")
-            .add({
-              owner: firebase.auth().currentUser.uid,
-              sentAt: firebase.firestore.FieldValue.serverTimestamp(),
-              text: message,
-            });
+          const conversationRef = firebase.database().ref(
+            "/conversations/" + props.conversationId
+          );
+          const newMessageRef = conversationRef.push();
+          newMessageRef.set({
+            owner: firebase.auth().currentUser.uid,
+            sentAt: firebase.database.ServerValue.TIMESTAMP,
+            text: message,
+          })
           setMessage("");
         }}
       >
