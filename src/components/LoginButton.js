@@ -26,7 +26,7 @@ export default function LoginButton(props) {
       
     });
 
-    const url = `https://strife-app-cd19a.web.app/?provider=${props.provider}&ot-auth-code=${id}`;
+    const url = `https://strife-app-cd19a.web.app/appLogin?provider=${props.provider}&ot-auth-code=${id}`;
 
     ipcRenderer.send("external", url);
 

@@ -46,7 +46,18 @@ function createWindow() {
 }
 // load window when app is ready
 app.on("ready", () => {
+  var AutoLaunch = require("auto-launch");
+
+  var autoLauncher = new AutoLaunch({
+    name: "Strife App",
+    path: path.join(__dirname, "../../..", app.name + ".exe"),
+  });
+
+  autoLauncher.enable();
+
   createWindow();
+
+  app.setAsDefaultProtocolClient("open-strife");
 
   let trayIcon = nativeImage.createFromPath(
     path.join(__dirname, "imgs/LogoColour.png")
