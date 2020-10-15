@@ -1,6 +1,6 @@
 {
   "name": "strife-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "A chat app for developers",
   "author": "Strife Org",
@@ -24,9 +24,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "react-build": "react-scripts build",
     "electron-build": "electron-builder build",
-    "full-build": "react-scripts build && electron-builder build",
+    "build": "react-scripts build && electron-builder build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
@@ -61,5 +61,9 @@
     "copyright": "Copyright © 2020 ${author}"
   },
   "main": "public/electron.js",
-  "homepage": "."
+  "homepage": ".",
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  }
 }
