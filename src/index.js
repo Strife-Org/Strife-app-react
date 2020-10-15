@@ -11,8 +11,6 @@ import "firebase/performance";
 import "firebase/remote-config";
 import { FirebaseAuthProvider } from "@react-firebase/auth";
 
-import { FirestoreProvider } from "@react-firebase/firestore";
-
 const { ipcRenderer } = window.require("electron");
 const {
   START_NOTIFICATION_SERVICE,
@@ -193,9 +191,7 @@ remoteConfig.fetchAndActivate().then(() => {
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
-      <FirestoreProvider {...firebaseConfig} firebase={firebase}>
         <App />
-      </FirestoreProvider>
     </FirebaseAuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
