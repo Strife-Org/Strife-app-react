@@ -7,11 +7,28 @@ import "firebase/storage";
 
 import { v1 } from "uuid";
 
+function splitFileName(full) {
+  const split = full.split('.')
+  const end = split[split.length-1]
+  const start = encodeURIComponent(full.substring(0, full.length - end.length - 1))
+  return {name: start, ext: end}
+}
+
 export default class FileUploader extends Component {
   state = {
     file: null,
-    comment: ""
+    comment: "",
+    defaultComment: ""
   };
+
+  componentDidMount() {
+    this.setState({ comment: this.props.commentDefault, defaultComment: this.props.commentDefault });
+  }
+  componentDidUpdate() {
+    if (this.props.commentDefault !== this.state.defaultComment) {
+      this.setState({ comment: this.props.commentDefault, defaultComment: this.props.commentDefault });
+    }
+  }
 
   render() {
     return (
@@ -33,10 +50,11 @@ export default class FileUploader extends Component {
               action="#"
               onSubmit={(e) => {
                 e.preventDefault();
-                const file = this.state.file
-                const fileName = file.name;
+                const file = this.state.file;
+                const {name, ext} = splitFileName(file.name)
+                
 
-                const fileLocation = fileName + "-" + v1();
+                const storageFileName = name + "@" + v1() + "." + ext;
 
                 // Points to the root reference
                 const storageRef = firebase.storage().ref();
@@ -45,12 +63,16 @@ export default class FileUploader extends Component {
                 const userFolderRef = storageRef.child(
                   firebase.auth().currentUser.uid
                 );
-                const fileRef = userFolderRef.child(fileLocation);
+                const fileRef = userFolderRef.child(storageFileName);
 
                 fileRef.put(file).then((snapshot) => {
-                  console.log(`Uploaded ${fileName} to ${fileLocation}`);
-                  console.log(`Comment is ${this.state.comment}`)
-                  close()
+
+                  fileRef.getDownloadURL().then(url => {
+                    this.props.handleSending(url, this.state.comment)
+                    close();
+                  })
+
+                  close();
                 });
               }}
             >
@@ -63,7 +85,16 @@ export default class FileUploader extends Component {
                   this.setState({ file });
                 }}
               />
-              <input type="text" name="comment" id="comment" placeholder="Comment" value={this.state.comment} onChange={(e) => {this.setState({ comment: e.target.value})}} />
+              <input
+                type="text"
+                name="comment"
+                id="comment"
+                placeholder="Comment"
+                value={this.state.comment}
+                onChange={(e) => {
+                  this.setState({ comment: e.target.value });
+                }}
+              />
               <button type="submit">Send</button>
             </form>
           </div>
