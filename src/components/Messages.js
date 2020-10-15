@@ -10,12 +10,13 @@ export default function Messages(props) {
   return (
     <ul className={styles.msgContainer}>
       {Object.keys(props.data).map((key) => {
-        const message = props.data[key]
+        const message = props.data[key];
         return (
           <Message
             key={key}
             isOwner={firebase.auth().currentUser.uid === message.owner}
             text={message.text}
+            file={message.file}
           />
         );
       })}

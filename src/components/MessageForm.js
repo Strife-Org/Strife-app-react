@@ -39,7 +39,19 @@ function MessageForm(props) {
         />
         <button type="submit">Send</button>
       </form>
-      <FileUploader />
+      <FileUploader commentDefault={message} handleSending={(fileLocation, text) => {
+        const conversationRef = firebase.database().ref(
+          "/conversations/" + props.conversationId
+        );
+        const newMessageRef = conversationRef.push();
+        newMessageRef.set({
+          owner: firebase.auth().currentUser.uid,
+          sentAt: firebase.database.ServerValue.TIMESTAMP,
+          text: text,
+          file: fileLocation
+        })
+        setMessage("");
+      }} />
     </div>
   );
 }
