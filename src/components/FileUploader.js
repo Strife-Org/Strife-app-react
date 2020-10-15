@@ -7,13 +7,6 @@ import "firebase/storage";
 
 import { v1 } from "uuid";
 
-function splitFileName(full) {
-  const split = full.split('.')
-  const end = split[split.length-1]
-  const start = encodeURIComponent(full.substring(0, full.length - end.length - 1))
-  return {name: start, ext: end}
-}
-
 export default class FileUploader extends Component {
   state = {
     file: null,
@@ -51,10 +44,7 @@ export default class FileUploader extends Component {
               onSubmit={(e) => {
                 e.preventDefault();
                 const file = this.state.file;
-                const {name, ext} = splitFileName(file.name)
-                
-
-                const storageFileName = name + "@" + v1() + "." + ext;
+                const fileName = file.name
 
                 // Points to the root reference
                 const storageRef = firebase.storage().ref();
@@ -63,11 +53,14 @@ export default class FileUploader extends Component {
                 const userFolderRef = storageRef.child(
                   firebase.auth().currentUser.uid
                 );
-                const fileRef = userFolderRef.child(storageFileName);
 
+                const fileFolder = userFolderRef.child(v1())
+
+                const fileRef = fileFolder.child(fileName)
                 fileRef.put(file).then((snapshot) => {
 
                   fileRef.getDownloadURL().then(url => {
+                    console.log(url)
                     this.props.handleSending(url, this.state.comment)
                     close();
                   })
