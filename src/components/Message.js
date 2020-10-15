@@ -3,18 +3,19 @@ import styles from "./styles/Message.module.css";
 import classNames from "classnames";
 import firebase from "firebase/app";
 import "firebase/storage";
-import { saveAs } from 'file-saver';
+import { saveAs } from "file-saver";
 
 function Message(props) {
   var [bytes, setBytes] = useState("");
   var [fileType, setFileType] = useState();
+  console.log(fileType);
   var fileName;
   if (props.file) {
     const fileRef = firebase.storage().refFromURL(props.file);
     fileName = fileRef.name;
     fileRef.getMetadata().then((metadata) => {
       setBytes(metadata.size);
-      setFileType(metadata.type);
+      setFileType(metadata.contentType);
     });
   }
   return (
@@ -26,7 +27,7 @@ function Message(props) {
     >
       {props.file ? (
         <a
-          style={{color: "white"}}
+          style={{ color: "white" }}
           href={props.file}
           download={fileName}
           onClick={(e) => {
@@ -35,12 +36,15 @@ function Message(props) {
             xhr.responseType = "blob";
             xhr.onload = function (event) {
               var blob = xhr.response;
-              saveAs(blob, fileName)
+              saveAs(blob, fileName);
             };
             xhr.open("GET", props.file);
             xhr.send();
           }}
         >
+          {fileType && fileType.startsWith("image") ? (
+            (<div><img alt="Received" src={props.file} style={{maxWidth: "40vw"}} /></div>)
+          ) : null}
           {bytes} bytes {fileName}
         </a>
       ) : null}
