@@ -9,18 +9,18 @@ import File from './icons/File'
 export default function Icon(props) {
     switch(props.icon) {
         case "github":
-            return (<Github onClick={props.onClick} />)
+            return (<Github className={props.className} onClick={props.onClick} />)
         case "google":
-            return (<Google onClick={props.onClick} />)
+            return (<Google className={props.className} onClick={props.onClick} />)
         case "signout":
-            return (<Signout onClick={props.onClick} />)
+            return (<Signout className={props.className} onClick={props.onClick} />)
         case "addcontact":
-            return (<AddContact onClick={props.onClick} />)
+            return (<AddContact className={props.className} onClick={props.onClick} />)
         case "question":
-            return (<Question onClick={props.onClick} />)
+            return (<Question className={props.className} onClick={props.onClick} />)
         case "file":
-            return (<File onClick={props.onClick} />)
+            return (<File className={props.className} onClick={props.onClick} />)
         default:
-            return (<div />)
+            return (<div className={props.className} />)
     }
 }
