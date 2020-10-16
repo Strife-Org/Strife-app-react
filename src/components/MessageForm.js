@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import firebase from "firebase/app";
 import "firebase/database";
@@ -7,10 +7,7 @@ import FileUploader from "./FileUploader";
 
 function MessageForm(props) {
   const [message, setMessage] = useState("");
-
-  const handleInput = (event) => {
-    setMessage(event.target.value);
-  };
+  const inputRef = useRef();
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -33,6 +30,8 @@ function MessageForm(props) {
         text: message.trim(),
       });
       setMessage("");
+      var editableDiv = inputRef.current;
+      editableDiv.innerText = "";
     }
   };
 
@@ -41,14 +40,16 @@ function MessageForm(props) {
       <div onKeyPressCapture={handleKeyPress}>
         <div
           id="message"
-          contentEditable
-          onChange={(e) => {
-            console.log(e.target.innerText);
+          contentEditable="true"
+          onInput={(e) => {
+            setMessage(e.target.innerText);
           }}
+          ref={inputRef}
         >
-          {message}
         </div>
-        <div className="placeholder">{window.remoteConfig.getString("message_box_placeholder")}</div>
+        <div className="placeholder" style={(message !== "" ? {display: 'none'} : {})}>
+          {window.remoteConfig.getString("message_box_placeholder")}
+        </div>
         <button type="submit" onClick={handleSubmit}>
           Send
         </button>
