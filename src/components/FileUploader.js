@@ -28,7 +28,7 @@ export default class FileUploader extends Component {
       <Popup
         trigger={
           <button className="button">
-            <Icon icon="file" />
+            <Icon icon="Paperclip" />
           </button>
         }
         modal

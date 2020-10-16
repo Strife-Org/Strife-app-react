@@ -1,0 +1,29 @@
+.main {
+    height: 100vh;
+    width: 100vw;
+}
+
+.main {
+    
+}
+
+.main .ownUserData {
+
+}
+
+/* THEMES */
+:root {
+    --white: #f1f2f6;
+    --gray0: #a4a5a8;
+    --gray1: rgb(119, 119, 119);
+    --gray2: rgb(47, 36, 109);
+    --gray3: rgb(9, 5, 32);
+}
+
+.dark {
+    
+}
+
+.light{
+
+}

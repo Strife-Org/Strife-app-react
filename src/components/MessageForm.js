@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
+import Icon from "./Icon"
 
 function MessageForm(props) {
   const [message, setMessage] = useState("");
@@ -51,7 +52,7 @@ function MessageForm(props) {
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>
         <button type="submit" onClick={handleSubmit}>
-          Send
+          <Icon icon="PaperPlane" />
         </button>
       </div>
       <FileUploader

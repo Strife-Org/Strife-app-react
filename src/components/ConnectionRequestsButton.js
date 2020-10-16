@@ -70,11 +70,10 @@ export default class ConnectionRequestsButton extends Component {
       <Popup
         trigger={
           <button>
-            <Icon icon="question" />
+            <Icon icon="Question" />
           </button>
         }
         modal
-        nested
       >
         {(close) => (
           <div>

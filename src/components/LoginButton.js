@@ -34,9 +34,22 @@ export default function LoginButton(props) {
 
     firebase.analytics().logEvent("sign-in", {provider: props.provider})
   }
+
+  var icon;
+  switch(props.provider) {
+    case "github":
+      icon = "Github"
+      break;
+    case "google":
+      icon= "Google"
+      break;
+    default:
+      console.error('Fix provider')
+  }
+
   return (
     <button onClick={handleClick} className="loginButton">
-      <Icon className="loginButtonIcon" icon={props.provider} />
+      <Icon className="loginButtonIcon" icon={icon} />
       <span className="loginButtonText">Log-in with {props.provider}</span>
     </button>
   );
