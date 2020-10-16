@@ -4,11 +4,6 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
-import Icon from "./Icon"
-
-import styles from "./styles/MessageForm.module.css";
-
-import styles from "./styles/Send.module.css"
 
 function MessageForm(props) {
   const [message, setMessage] = useState("");
@@ -24,7 +19,6 @@ function MessageForm(props) {
   };
 
   const handleSubmit = () => {
-    console.log(message);
     if (message.trim() !== "") {
       const conversationRef = firebase
         .database()
@@ -60,11 +54,6 @@ function MessageForm(props) {
           Send
         </button>
       </div>
-
-      <button type="submit" onClick={handleSubmit} className={styles.send}>
-        <Icon icon="send" />
-      </button>
-
       <FileUploader
         commentDefault={message}
         handleSending={(fileLocation, text) => {
