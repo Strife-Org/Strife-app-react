@@ -11,47 +11,65 @@ function MessageForm(props) {
   const handleInput = (event) => {
     setMessage(event.target.value);
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      if (!event.shiftKey) {
+        event.preventDefault();
+        handleSubmit();
+      }
+    }
+  };
+
+  const handleSubmit = () => {
+    if (message.trim() !== "") {
+      const conversationRef = firebase
+        .database()
+        .ref("/conversations/" + props.conversationId);
+      const newMessageRef = conversationRef.push();
+      newMessageRef.set({
+        owner: firebase.auth().currentUser.uid,
+        sentAt: firebase.database.ServerValue.TIMESTAMP,
+        text: message.trim(),
+      });
+      setMessage("");
+    }
+  };
+
   return (
     <div>
-      <form
-        action="#"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const conversationRef = firebase.database().ref(
-            "/conversations/" + props.conversationId
-          );
+      <div onKeyPressCapture={handleKeyPress}>
+        <div
+          id="message"
+          contentEditable
+          onChange={(e) => {
+            console.log(e.target.innerText);
+          }}
+        >
+          {message}
+        </div>
+        <div className="placeholder">{window.remoteConfig.getString("message_box_placeholder")}</div>
+        <button type="submit" onClick={handleSubmit}>
+          Send
+        </button>
+      </div>
+
+      <FileUploader
+        commentDefault={message}
+        handleSending={(fileLocation, text) => {
+          const conversationRef = firebase
+            .database()
+            .ref("/conversations/" + props.conversationId);
           const newMessageRef = conversationRef.push();
           newMessageRef.set({
             owner: firebase.auth().currentUser.uid,
             sentAt: firebase.database.ServerValue.TIMESTAMP,
-            text: message,
-          })
+            text: text,
+            file: fileLocation,
+          });
           setMessage("");
         }}
-      >
-        <input
-          type="text"
-          name="message"
-          id="message"
-          placeholder={window.remoteConfig.getString("message_box_placeholder")}
-          onChange={handleInput}
-          value={message}
-        />
-        <button type="submit">Send</button>
-      </form>
-      <FileUploader commentDefault={message} handleSending={(fileLocation, text) => {
-        const conversationRef = firebase.database().ref(
-          "/conversations/" + props.conversationId
-        );
-        const newMessageRef = conversationRef.push();
-        newMessageRef.set({
-          owner: firebase.auth().currentUser.uid,
-          sentAt: firebase.database.ServerValue.TIMESTAMP,
-          text: text,
-          file: fileLocation
-        })
-        setMessage("");
-      }} />
+      />
     </div>
   );
 }

@@ -14,7 +14,9 @@ export default function LoginButton(props) {
     const oneTimeCodeRef = db.collection(`ot-auth-codes`).doc(id);
 
     var unsubscribe = oneTimeCodeRef.onSnapshot(async function (doc) {
+      console.log(id)
       const data = doc.data();
+      console.log(data)
       if (data) {
         unsubscribe();
         firebase
