@@ -1,0 +1,11 @@
+.uploadBtn {
+    box-sizing: border-box;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    border: solid;
+    border-radius: 20px;
+}
