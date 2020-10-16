@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Popup from "reactjs-popup";
 import Icon from "./Icon";
+import styles from "./styles/FileUploader.module.css"
 
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -27,7 +28,7 @@ export default class FileUploader extends Component {
     return (
       <Popup
         trigger={
-          <button className="button">
+          <button className={styles.uploadBtn}>
             <Icon icon="file" />
           </button>
         }
