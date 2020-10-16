@@ -40,8 +40,8 @@ function MessageForm(props) {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.contentEditableContainer} onKeyPressCapture={handleKeyPress}>
+    <div>
+      <div onKeyPressCapture={handleKeyPress}>
         <div
           id="message"
           contentEditable="true"
