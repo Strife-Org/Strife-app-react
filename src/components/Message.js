@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import styles from "./styles/Message.module.css";
-import classNames from "classnames";
 import firebase from "firebase/app";
 import "firebase/storage";
 import { saveAs } from "file-saver";
@@ -20,12 +18,7 @@ function Message(props) {
     });
   }
   return (
-    <div
-      className={classNames(
-        styles.message,
-        props.isOwner ? styles.own : styles.other
-      )}
-    >
+    <div>
       {props.file ? (
         <a
           style={{ color: "white" }}

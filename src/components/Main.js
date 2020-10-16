@@ -5,8 +5,6 @@ import CurrentConversation from "./CurrentConversation";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import styles from "./styles/main.module.css"
-
 export default class Main extends Component {
   state = {
     currentConversation: "",
@@ -40,7 +38,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div>
         <OwnUserData />
         <Conversations
           changeConversationId={(newId) => {

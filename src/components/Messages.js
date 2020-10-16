@@ -4,11 +4,9 @@ import "firebase/auth";
 import "firebase/firestore";
 import Message from "./Message";
 
-import styles from "./styles/Messages.module.css";
-
 export default function Messages(props) {
   return (
-    <ul className={styles.msgContainer}>
+    <ul>
       {Object.keys(props.data).map((key) => {
         const message = props.data[key];
         return (

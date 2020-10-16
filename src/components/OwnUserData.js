@@ -6,8 +6,6 @@ import SignoutButton from './SignoutButton'
 import AddContact from './AddContact'
 import ConnectionRequestsButton from './ConnectionRequestsButton'
 
-import styles from "./styles/OwnUserData.module.css"
-
 export default function OwnUserData(props) {
   return (
     <FirebaseAuthConsumer>
@@ -18,9 +16,8 @@ export default function OwnUserData(props) {
               src={user.photoURL}
               alt="Own Profile"
               height="32"
-              className={styles.profileImg}
             />
-            <h2 className={styles.displayName}>{user.displayName || user.username}</h2>
+            <h2>{user.displayName || user.username}</h2>
             <SignoutButton />
             <AddContact />
             <ConnectionRequestsButton />
