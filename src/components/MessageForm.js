@@ -39,17 +39,19 @@ function MessageForm(props) {
     <div>
       <div onKeyPressCapture={handleKeyPress}>
         <div
+          className="placeholder"
+          style={message !== "" ? { display: "none" } : {}}
+        >
+          {window.remoteConfig.getString("message_box_placeholder")}
+        </div>
+        <div
           id="message"
           contentEditable="true"
           onInput={(e) => {
             setMessage(e.target.innerText);
           }}
           ref={inputRef}
-        >
-        </div>
-        <div className="placeholder" style={(message !== "" ? {display: 'none'} : {})}>
-          {window.remoteConfig.getString("message_box_placeholder")}
-        </div>
+        ></div>
         <button type="submit" onClick={handleSubmit}>
           Send
         </button>
