@@ -5,10 +5,11 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import { saveAs } from "file-saver";
 
+import {markdown} from "markdown";
+
 function Message(props) {
   var [bytes, setBytes] = useState("");
   var [fileType, setFileType] = useState();
-  console.log(fileType);
   var fileName;
   if (props.file) {
     const fileRef = firebase.storage().refFromURL(props.file);
@@ -48,7 +49,7 @@ function Message(props) {
           {bytes} bytes {fileName}
         </a>
       ) : null}
-      <p>{props.text}</p>
+      <div dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}></div>
     </div>
   );
 }
