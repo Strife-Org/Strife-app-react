@@ -1,7 +1,11 @@
 .msgContainer {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
   flex-wrap: wrap;
+  width: 50vw;
+  background: red;
+  float: right;
+  top: 0;
+  right: 0;
 }

@@ -4,21 +4,26 @@
   margin: 10px !important;
   color: white;
   justify-content: center;
-  padding: 10px 20px 10px 20px;
+  height: 20px;
+  overflow: hidden;
+  display: flexbox;
+  text-align: center;
 }
+
 
 .own {
   background: blue;
-  text-align: left;
+  text-align: right;
+  float: right;
   border-radius: 15px;
   margin-left: 10px;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .other {
   background: gray;
-  text-align: right;
+  text-align: left;
   border-radius: 12px;
   margin-right: 10px;
-  align-self: flex-start;
+  align-self: flex-end;
 }

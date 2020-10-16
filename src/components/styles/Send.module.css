@@ -1,0 +1,30 @@
+.messageClass {
+  position: relative;
+  bottom: 0;
+  width: 70%;
+  height: auto;
+  padding: 10px;
+  border-radius: 50px;
+  outline: none;
+  border: solid 1px gray;
+}
+
+.send {
+    float: right;
+}
+
+.send > svg {
+  fill: white;
+}
+
+.formCont {
+  position: fixed;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  width: 100%;
+  bottom: 0;
+}
