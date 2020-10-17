@@ -54,10 +54,12 @@
 
 .main .currentConversationBar .userData {
     display: block;
+    padding: 9px;
 }
 
 .main .currentConversationBar .profilePic {
     vertical-align: middle;
+    border-radius: 16px;
 }
 
 .main .currentConversationBar .displayName {
