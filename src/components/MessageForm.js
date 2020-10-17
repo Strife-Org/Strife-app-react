@@ -6,6 +6,8 @@ import "firebase/database";
 import FileUploader from "./FileUploader";
 import Icon from "./Icon";
 
+import "../styles/main__currentconversation__messageform.css"
+
 function MessageForm(props) {
   const [message, setMessage] = useState("");
   const inputRef = useRef();
@@ -37,8 +39,8 @@ function MessageForm(props) {
   };
 
   return (
-    <div>
-      <div onKeyPressCapture={handleKeyPress}>
+    <div className="messageForm" >
+      <div onKeyPressCapture={handleKeyPress} className="contentEditableContainer">
         <div
           id="message"
           contentEditable="true"
@@ -46,6 +48,7 @@ function MessageForm(props) {
             setMessage(e.target.innerText);
           }}
           ref={inputRef}
+          className="contentEditable"
         ></div>
         <div
           className="placeholder"
@@ -53,10 +56,10 @@ function MessageForm(props) {
         >
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>
-        <button type="submit" onClick={handleSubmit}>
-          <Icon icon="PaperPlane" />
-        </button>
       </div>
+      <button type="submit" onClick={handleSubmit} className="sendButton" >
+          <Icon icon="PaperPlane" className="sendIcon" />
+        </button>
       <FileUploader
         commentDefault={message}
         handleSending={(fileLocation, text) => {
