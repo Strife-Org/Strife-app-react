@@ -48,6 +48,7 @@
 }
 
 .main .currentConversationBar {
+    background: #EDF2F5;
     height: 50px;
     width: 100%;
 }
@@ -60,6 +61,7 @@
 .main .currentConversationBar .profilePic {
     vertical-align: middle;
     border-radius: 16px;
+    margin-left: 5px;
 }
 
 .main .currentConversationBar .displayName {
