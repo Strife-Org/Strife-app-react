@@ -1,0 +1,43 @@
+.main .currentConversation {
+    grid-area: CurrentConversation;
+    background: white;
+}
+
+.main .currentConversation a{
+    color: blue;
+}
+
+.main .currentConversation .messages {
+    padding: 5px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: center;
+    height: calc(100vh - 110px);
+}
+
+.main .currentConversation .message {
+    display: inline-flex;
+}
+
+.main .currentConversation .message.own {
+    align-self: flex-start;
+}
+
+.main .currentConversation .message.other {
+    align-self: flex-end;
+}
+
+.main .currentConversationBar {
+    height: 50px;
+    width: 100%;
+}
+
+.main .currentConversationBar .profilePic {
+    
+}
+
+.main .currentConversationBar .displayName {
+    display: inline-block;
+}

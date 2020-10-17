@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
-import Icon from "./Icon"
+import Icon from "./Icon";
 
 function MessageForm(props) {
   const [message, setMessage] = useState("");
@@ -21,10 +21,10 @@ function MessageForm(props) {
 
   const handleSubmit = () => {
     if (message.trim() !== "") {
-      const conversationRef = firebase
+      const messagesRef = firebase
         .database()
-        .ref("/conversations/" + props.conversationId);
-      const newMessageRef = conversationRef.push();
+        .ref("/conversations/" + props.conversationId + "/messages");
+      const newMessageRef = messagesRef.push();
       newMessageRef.set({
         owner: firebase.auth().currentUser.uid,
         sentAt: firebase.database.ServerValue.TIMESTAMP,
@@ -46,9 +46,11 @@ function MessageForm(props) {
             setMessage(e.target.innerText);
           }}
           ref={inputRef}
+        ></div>
+        <div
+          className="placeholder"
+          style={message !== "" ? { display: "none" } : {}}
         >
-        </div>
-        <div className="placeholder" style={(message !== "" ? {display: 'none'} : {})}>
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>
         <button type="submit" onClick={handleSubmit}>
@@ -58,10 +60,10 @@ function MessageForm(props) {
       <FileUploader
         commentDefault={message}
         handleSending={(fileLocation, text) => {
-          const conversationRef = firebase
+          const messagesRef = firebase
             .database()
-            .ref("/conversations/" + props.conversationId);
-          const newMessageRef = conversationRef.push();
+            .ref("/conversations/" + props.conversationId + "/messages");
+          const newMessageRef = messagesRef.push();
           newMessageRef.set({
             owner: firebase.auth().currentUser.uid,
             sentAt: firebase.database.ServerValue.TIMESTAMP,

@@ -5,6 +5,7 @@ import CurrentConversation from "./CurrentConversation";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
+import "../styles/main.css"
 export default class Main extends Component {
   state = {
     currentConversation: "",

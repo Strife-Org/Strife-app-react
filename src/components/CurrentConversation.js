@@ -1,51 +1,29 @@
 import React, { Component } from "react";
-import Messages from "./Messages";
-import MessageForm from "./MessageForm";
 import Loader from "react-loader-spinner";
+
 import firebase from "firebase/app";
 import "firebase/database";
+
+import Messages from "./Messages";
+import MessageForm from "./MessageForm";
+import CurrentConversationBar from "./CurrentConversationBar";
+import "../styles/main_currentconversation.css";
 
 export default class CurrentConversation extends Component {
   state = {
     currentConversation: "",
-    conversations: {},
+    messages: {},
+    conversationsData: {},
     listeners: [],
-    loading: false
+    loading: false,
   };
   database = firebase.database();
-  componentDidMount() {
-    if (this.props.conversationId) {
-      this.setState({ currentConversation: this.props.conversationId });
-      if (this.props.conversationId !== "!exists") {
-        const conversationRef = this.database.ref(
-          "/conversations/" + this.props.conversationId
-        );
-        var listeners = this.state.listeners;
-        listeners.push(
-          conversationRef
-            .orderByChild("sentAt")
-            .on("child_added", (snapshot, b) => {
-              console.log(snapshot);
-              var data = {};
-              data.conversations = this.state.conversations;
-              data.conversations[this.props.conversationId] =
-                data.conversations[this.props.conversationId] || {};
-              data.conversations[this.props.conversationId][
-                snapshot.key
-              ] = snapshot.val();
-              this.setState(data);
-            })
-        );
-        this.setState({ listeners });
-      }
-    }
-  }
 
   async componentDidUpdate(newProps) {
-    if(!this.state.conversations[newProps.conversationId]) {
-      var conversations = this.state.conversations
-      conversations[newProps.conversationId] = {}
-      this.setState({ conversations: conversations})
+    if (!this.state.messages[newProps.conversationId]) {
+      var conversations = this.state.messages;
+      conversations[newProps.conversationId] = {};
+      this.setState({ conversations: conversations });
     }
     if (newProps.conversationId !== this.state.currentConversation) {
       this.setState({ currentConversation: newProps.conversationId });
@@ -53,20 +31,36 @@ export default class CurrentConversation extends Component {
         const conversationRef = this.database.ref(
           "/conversations/" + newProps.conversationId
         );
+        const messagesRef = conversationRef.child("messages");
+        const conversationDataRef = conversationRef.child("data");
         var listeners = this.state.listeners;
+        conversationDataRef.once("value").then((snapshot) => {
+          var data = snapshot.val();
+          delete data.members[firebase.auth().currentUser.uid];
+          data.user = data.members[Object.keys(data.members)[0]];
+          console.log(data.user);
+          var state = {};
+          state.conversationsData = this.state.conversationsData;
+          state.conversationsData[this.props.conversationId] = data;
+        });
         listeners.push(
-          conversationRef
-            .orderByChild("sentAt")
-            .on("child_added", (snapshot, b) => {
-              var data = {};
-              data.conversations = this.state.conversations;
-              data.conversations[newProps.conversationId] =
-                data.conversations[newProps.conversationId] || {};
-              data.conversations[newProps.conversationId][
-                snapshot.key
-              ] = snapshot.val();
-              this.setState(data);
-            })
+          [
+            messagesRef
+              .orderByChild("sentAt")
+              .on("child_added", (snapshot, b) => {
+                var data = {};
+                data.conversations = this.state.messages;
+                data.conversations[newProps.conversationId] =
+                  data.conversations[newProps.conversationId] || {};
+                data.conversations[newProps.conversationId][
+                  snapshot.key
+                ] = snapshot.val();
+                this.setState(data);
+              }),
+          ],
+          conversationDataRef.on("child_changed", (snapshot, b) => {
+            console.log(snapshot.val());
+          })
         );
         this.setState({ listeners });
       }
@@ -78,11 +72,23 @@ export default class CurrentConversation extends Component {
       return <div>No conversations</div>;
     } else if (this.props.conversationId) {
       return (
-        <div>
-          {this.state.conversations[this.props.conversationId] ? (
-            <Messages
-              data={this.state.conversations[this.props.conversationId]}
+        <div className="currentConversation">
+          {this.state.conversationsData[this.props.conversationId] ? (
+            <CurrentConversationBar
+              displayName={
+                this.state.conversationsData[this.props.conversationId].user
+                  .displayName
+              }
+              photoURL={
+                this.state.conversationsData[this.props.conversationId].user
+                  .profileURL
+              }
             />
+          ) : (
+            <div>Loading</div>
+          )}
+          {this.state.messages[this.props.conversationId] ? (
+            <Messages data={this.state.messages[this.props.conversationId]} />
           ) : (
             <div>Loading...</div>
           )}

@@ -8,7 +8,7 @@ export default function Connection({data, onClick}) {
               alt={`${data.user.displayName}'s profile`}
               height="32"
             />
-            <h2>{data.user.displayName}</h2>
+            <h3>{data.user.displayName}</h3>
         </button>
     )
 }

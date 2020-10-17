@@ -7,7 +7,7 @@ export default function SignoutButton() {
         e.preventDefault();
         window.signout()
     }}>
-      <Icon icon="signout" />
+      <Icon icon="signout" /> Signout
     </button>
   );
 }

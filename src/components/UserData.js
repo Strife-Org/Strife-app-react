@@ -7,8 +7,11 @@ export default function UserData({displayName, photoURL}) {
               src={photoURL}
               alt={`${displayName}'s profile`}
               height="32"
+              className="profilePic"
             />
-            <h2>{displayName}</h2>
+            <h2
+            className="displayName"
+            >{displayName}</h2>
         </span>
     )
 }

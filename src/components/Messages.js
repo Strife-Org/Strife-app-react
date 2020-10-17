@@ -6,7 +6,7 @@ import Message from "./Message";
 
 export default function Messages(props) {
   return (
-    <ul>
+    <ul className="messages">
       {Object.keys(props.data).map((key) => {
         const message = props.data[key];
         return (

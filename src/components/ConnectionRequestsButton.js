@@ -70,7 +70,7 @@ export default class ConnectionRequestsButton extends Component {
       <Popup
         trigger={
           <button>
-            <Icon icon="Question" />
+            <Icon icon="Question" /> See Requests
           </button>
         }
         modal
