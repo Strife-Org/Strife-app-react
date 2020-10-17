@@ -1,7 +1,7 @@
 .main {
   display: grid;
   grid-template-areas: "OwnUserInfo CurrentConversation" "Connections CurrentConversation";
-  grid-template-columns: max(25%, 200px) 75%;
+  grid-template-columns: max(25vw, 200px) 75vw;
   grid-template-rows: 50px auto;
   height: 100vh;
   width: 100vw;

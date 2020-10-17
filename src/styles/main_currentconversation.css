@@ -15,6 +15,8 @@
     align-items: flex-start;
     align-content: center;
     height: calc(100vh - 110px);
+    box-sizing: border-box;
+    width: calc(100vw - max(25vw, 200px));
 }
 
 .main .currentConversation .message {
@@ -23,10 +25,26 @@
 
 .main .currentConversation .message.own {
     align-self: flex-start;
+    background: blue;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.main .currentConversation p {
+    margin: 0;
+    max-width: calc(0.7 * calc(100vw - max(25vw, 200px)));
+    word-wrap: break-word;
 }
 
 .main .currentConversation .message.other {
     align-self: flex-end;
+    background: gray;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
 }
 
 .main .currentConversationBar {
@@ -34,10 +52,16 @@
     width: 100%;
 }
 
+.main .currentConversationBar .userData {
+    display: block;
+}
+
 .main .currentConversationBar .profilePic {
-    
+    vertical-align: middle;
 }
 
 .main .currentConversationBar .displayName {
+    vertical-align: middle;
     display: inline-block;
+    margin: 0;
 }
