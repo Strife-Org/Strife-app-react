@@ -76,8 +76,9 @@
     margin-top: 1px;
 }
 
-.login .loginButtonIcon {
-    vertical-align: top;
+.login .loginIcon {
+    transform: scale(1.5);
+    vertical-align: middle;
     height: 20px;
 }
 

@@ -54,19 +54,3 @@
     width: 100%;
 }
 
-.main .currentConversationBar .userData {
-    display: block;
-    padding: 9px;
-}
-
-.main .currentConversationBar .profilePic {
-    vertical-align: middle;
-    border-radius: 16px;
-    margin-left: 5px;
-}
-
-.main .currentConversationBar .displayName {
-    vertical-align: middle;
-    display: inline-block;
-    margin: 0;
-}

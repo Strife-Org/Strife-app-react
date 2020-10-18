@@ -1,15 +1,13 @@
 import React from "react";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import SignoutButton from "./SignoutButton";
-import AddContact from "./AddContact";
-import ConnectionRequestsButton from "./ConnectionRequestsButton";
+import ManageContact from "./ManageContacts";
 import Popup from "reactjs-popup";
 import Icon from "./Icon";
 
 const settings = [
-  <AddContact />,
-  <ConnectionRequestsButton />,
-  <SignoutButton />,
+  ManageContact,
+  SignoutButton,
 ];
 
 export default function OwnUserData(props) {
@@ -38,7 +36,7 @@ export default function OwnUserData(props) {
               >
                 <ul className="settings">
                   {settings.map((setting) => (
-                    <li className="setting">{setting}</li>
+                    <li className="setting" key={setting.name}>{React.createElement(setting)}</li>
                   ))}
                 </ul>
               </Popup>

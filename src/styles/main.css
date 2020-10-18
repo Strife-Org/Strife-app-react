@@ -34,7 +34,25 @@
   vertical-align: top;
 }
 
-#popup-root .settings{
+.userData {
+  display: block;
+  padding: 9px;
+}
+
+.userData .profilePic {
+  vertical-align: middle;
+  border-radius: 16px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.userData .displayName {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0;
+}
+
+#popup-root .settings {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -50,7 +68,7 @@
   transition: ease-in-out 250ms;
 }
 
-#popup-root .setting .settingButton:hover{
+#popup-root .setting .settingButton:hover {
   background: rgb(197, 194, 194);
 }
 
@@ -117,6 +135,72 @@
   vertical-align: middle;
   /* font-size: 1.5rem; */
 }
+
+.tabs {
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.tab {
+  display: inline-block;
+  margin-right: 10px;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  height: 38.5px;
+}
+
+.tab button {
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.tab button:focus {
+  outline: none;
+}
+
+.tab.active {
+  position: relative;
+  color: rgb(6, 6, 224);
+  font-weight: bolder;
+  border-bottom: 3px solid rgb(6, 6, 224);
+  transition: all 0.2s ease-in-out;
+}
+
+.connectionRequests {
+  list-style-type: none;
+}
+
+.connectionRequests .userData {
+  display: inline-block;
+}
+
+.connectionRequests .approveDecline button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  margin: 0 5px;
+  color: white;
+  border: none;
+  border-radius: 40%;
+}
+
+.approveDecline button svg {
+  transform: scale(1.4);
+  vertical-align: middle;
+}
+
+.approveDecline .approve {
+  background-color: green;
+}
+
+.approveDecline .decline {
+  background-color: red;
+}
+
 /* THEMES */
 :root {
   --white: #f1f2f6;
