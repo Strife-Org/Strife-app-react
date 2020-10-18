@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function UserData({displayName, photoURL}) {
     return (
-        <span class="userData">
+        <span className="userData">
             <img
               src={photoURL}
               alt={`${displayName}'s profile`}

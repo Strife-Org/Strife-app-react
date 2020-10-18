@@ -10,6 +10,7 @@ import "firebase/analytics";
 import "firebase/performance";
 import "firebase/remote-config";
 import { FirebaseAuthProvider } from "@react-firebase/auth";
+const customTitleBar = window.require("custom-electron-titlebar");
 
 const { ipcRenderer } = window.require("electron");
 const {
@@ -20,6 +21,12 @@ const {
   TOKEN_UPDATED,
 } = window.require("electron-push-receiver/src/constants");
 
+window.titleBar = new customTitleBar.Titlebar({
+  backgroundColor: customTitleBar.Color.fromHex("#03a9f4"),
+  icon: "./icons/StrifeWhite.svg",
+  hideWhenClickingClose: true,
+});
+
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDcVgUKp9PQlA4f0gO_NK-nQ5vNMQLVLEM",
@@ -29,7 +36,7 @@ const firebaseConfig = {
   storageBucket: "strife-app-cd19a.appspot.com",
   messagingSenderId: "728118645988",
   appId: "1:728118645988:web:170382696bc68eb94a88f1",
-  measurementId: "G-Y4SZF8FVZC"
+  measurementId: "G-Y4SZF8FVZC",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -184,17 +191,15 @@ remoteConfig.settings = {
   minimumFetchIntervalMillis: 120000,
 };
 
-window.remoteConfig = remoteConfig
+window.remoteConfig = remoteConfig;
 
 remoteConfig.fetchAndActivate().then(() => {
-
-ReactDOM.render(
-  <React.StrictMode>
-    <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
+  ReactDOM.render(
+    <React.StrictMode>
+      <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
         <App />
-    </FirebaseAuthProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
-
-})
+      </FirebaseAuthProvider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+});

@@ -19,7 +19,7 @@ export default function Messages(props) {
       <ul
         className="messages"
         style={{
-          height: `calc(100vh - ${props.contentEditableHeight + 64}px)`,
+          height: `calc(100vh - ${props.contentEditableHeight + 94}px)`,
         }}
         onScroll={(e) => {
           let tBottom =

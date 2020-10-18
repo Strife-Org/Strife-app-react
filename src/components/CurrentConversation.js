@@ -32,14 +32,16 @@ export default class CurrentConversation extends Component {
         const conversationRef = this.database.ref(
           "/conversations/" + newProps.conversationId
         );
+        console.log(newProps.conversationId)
         const messagesRef = conversationRef.child("messages");
         const conversationDataRef = conversationRef.child("data");
         var listeners = this.state.listeners;
         conversationDataRef.once("value").then((snapshot) => {
           var data = snapshot.val();
+          console.log(data)
           delete data.members[firebase.auth().currentUser.uid];
           data.user = data.members[Object.keys(data.members)[0]];
-          console.log(data.user);
+          window.titleBar.updateTitle(`${data.user.displayName} - Strife Chat`);
           var state = {};
           state.conversationsData = this.state.conversationsData;
           state.conversationsData[this.props.conversationId] = data;
@@ -58,12 +60,14 @@ export default class CurrentConversation extends Component {
                 ] = snapshot.val();
                 this.setState(data);
               }),
-          ],
-          conversationDataRef.on("child_changed", (snapshot, b) => {
-            console.log(snapshot.val());
-          })
+            ]
+          // ],
+          // conversationDataRef.on("child_changed", (snapshot, b) => {
+          // })
         );
         this.setState({ listeners });
+      } else {
+        if(document.title !== "Strife Chat") window.titleBar.updateTitle("Strife Chat")
       }
     }
   }

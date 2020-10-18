@@ -19,8 +19,11 @@ function createWindow() {
     icon: path.join(__dirname, "drawing.png"),
     width: 1024,
     height: 768,
+    //titleBarStyle: "hidden",
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
     show: false,
   });
