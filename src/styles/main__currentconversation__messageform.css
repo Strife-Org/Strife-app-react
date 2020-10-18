@@ -6,6 +6,8 @@
   background-size: contain;
   width: 100%;
   height: auto;
+  padding: 7px;
+  box-sizing: content-box;
   }
 
 .contentEditableContainer {
@@ -19,13 +21,14 @@
 }
 .contentEditable {
   box-sizing: border-box;
-  height: 44px;
   line-height: 34px;
   padding: 5px;
   border-radius: 17px;
   border: solid gray 1px;
   outline: none;
   z-index: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: auto;
 }
 

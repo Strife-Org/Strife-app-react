@@ -9,8 +9,19 @@ import Icon from "./Icon";
 import "../styles/main__currentconversation__messageform.css"
 
 function MessageForm(props) {
-  const [message, setMessage] = useState("");
-  const inputRef = useRef();
+  const [message, setM] = useState("");
+  const contentEditableRef = useRef();
+
+  function setMessage(m) {
+    setM(m);
+    if(m === "") contentEditableRef.current.innerText = m;
+    props.setContentEditableHeight(contentEditableRef.current.scrollHeight);
+  }
+
+  if(message.charCodeAt(0).toString(2) === "1010" && message.length === 1) {
+    setMessage("")
+    
+  }
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -22,7 +33,7 @@ function MessageForm(props) {
   };
 
   const handleSubmit = () => {
-    if (message.trim() !== "") {
+    if (message.trim().length > 0) {
       const messagesRef = firebase
         .database()
         .ref("/conversations/" + props.conversationId + "/messages");
@@ -33,8 +44,6 @@ function MessageForm(props) {
         text: message.trim(),
       });
       setMessage("");
-      var editableDiv = inputRef.current;
-      editableDiv.innerText = "";
     }
   };
 
@@ -47,12 +56,12 @@ function MessageForm(props) {
           onInput={(e) => {
             setMessage(e.target.innerText);
           }}
-          ref={inputRef}
+          ref={contentEditableRef}
           className="contentEditable"
         ></div>
         <div
           className="placeholder"
-          style={message !== "" ? { display: "none" } : {}}
+          style={message.length > 0 ? { display: "none" } : {}}
         >
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>

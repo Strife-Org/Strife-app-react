@@ -16,6 +16,7 @@ export default class CurrentConversation extends Component {
     conversationsData: {},
     listeners: [],
     loading: false,
+    contentEditableHeight: 46,
   };
   database = firebase.database();
 
@@ -88,11 +89,17 @@ export default class CurrentConversation extends Component {
             <div>Loading</div>
           )}
           {this.state.messages[this.props.conversationId] ? (
-            <Messages data={this.state.messages[this.props.conversationId]} />
+            <Messages contentEditableHeight={this.state.contentEditableHeight} data={this.state.messages[this.props.conversationId]} />
           ) : (
             <div>Loading...</div>
           )}
-          <MessageForm conversationId={this.props.conversationId} />
+          <MessageForm
+            contentEditableHeight={this.state.contentEditableHeight}
+            setContentEditableHeight={(height) => {
+              this.setState({ contentEditableHeight: height });
+            }}
+            conversationId={this.props.conversationId}
+          />
         </div>
       );
     } else {
