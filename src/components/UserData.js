@@ -1,17 +1,17 @@
 import React from 'react'
 
-import styles from "./styles/Connection.module.css"
-
 export default function UserData({displayName, photoURL}) {
     return (
-        <span>
+        <span class="userData">
             <img
               src={photoURL}
               alt={`${displayName}'s profile`}
               height="32"
-              className={styles.profileImg}
+              className="profilePic"
             />
-            <h2 className={styles.displayName} >{displayName}</h2>
+            <h2
+            className="displayName"
+            >{displayName}</h2>
         </span>
     )
 }

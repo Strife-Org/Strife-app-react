@@ -4,10 +4,24 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
+import Icon from "./Icon";
+
+import "../styles/main__currentconversation__messageform.css"
 
 function MessageForm(props) {
-  const [message, setMessage] = useState("");
-  const inputRef = useRef();
+  const [message, setM] = useState("");
+  const contentEditableRef = useRef();
+
+  function setMessage(m) {
+    setM(m);
+    if(m === "") contentEditableRef.current.innerText = m;
+    props.setContentEditableHeight(contentEditableRef.current.scrollHeight);
+  }
+
+  if(message.charCodeAt(0).toString(2) === "1010" && message.length === 1) {
+    setMessage("")
+    
+  }
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -19,48 +33,49 @@ function MessageForm(props) {
   };
 
   const handleSubmit = () => {
-    if (message.trim() !== "") {
-      const conversationRef = firebase
+    if (message.trim().length > 0) {
+      const messagesRef = firebase
         .database()
-        .ref("/conversations/" + props.conversationId);
-      const newMessageRef = conversationRef.push();
+        .ref("/conversations/" + props.conversationId + "/messages");
+      const newMessageRef = messagesRef.push();
       newMessageRef.set({
         owner: firebase.auth().currentUser.uid,
         sentAt: firebase.database.ServerValue.TIMESTAMP,
         text: message.trim(),
       });
       setMessage("");
-      var editableDiv = inputRef.current;
-      editableDiv.innerText = "";
     }
   };
 
   return (
-    <div>
-      <div onKeyPressCapture={handleKeyPress}>
+    <div className="messageForm" >
+      <div onKeyPressCapture={handleKeyPress} className="contentEditableContainer">
         <div
           id="message"
           contentEditable="true"
           onInput={(e) => {
             setMessage(e.target.innerText);
           }}
-          ref={inputRef}
+          ref={contentEditableRef}
+          className="contentEditable"
+        ></div>
+        <div
+          className="placeholder"
+          style={message.length > 0 ? { display: "none" } : {}}
         >
-        </div>
-        <div className="placeholder" style={(message !== "" ? {display: 'none'} : {})}>
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>
-        <button type="submit" onClick={handleSubmit}>
-          Send
-        </button>
       </div>
+      <button type="submit" onClick={handleSubmit} className="sendButton" >
+          <Icon icon="PaperPlane" className="sendIcon" />
+        </button>
       <FileUploader
         commentDefault={message}
         handleSending={(fileLocation, text) => {
-          const conversationRef = firebase
+          const messagesRef = firebase
             .database()
-            .ref("/conversations/" + props.conversationId);
-          const newMessageRef = conversationRef.push();
+            .ref("/conversations/" + props.conversationId + "/messages");
+          const newMessageRef = messagesRef.push();
           newMessageRef.set({
             owner: firebase.auth().currentUser.uid,
             sentAt: firebase.database.ServerValue.TIMESTAMP,

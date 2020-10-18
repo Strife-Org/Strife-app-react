@@ -5,14 +5,13 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import UserData from "./UserData";
 import AcceptDecline from "./AcceptDecline";
-import styles from "./styles/ConnectionRequests.module.css";
 
 function ConnectionRequests({ requests }) {
   return (
-    <ul className={styles.requestsList}>
+    <ul>
       {requests.map((request) => {
         return (
-          <li key={request.id} className={styles.request}>
+          <li key={request.id}>
             <UserData
               displayName={request.user.displayName}
               photoURL={request.user.photoURL}
@@ -70,16 +69,15 @@ export default class ConnectionRequestsButton extends Component {
     return (
       <Popup
         trigger={
-          <button className="button">
-            <Icon icon="question" />
+          <button>
+            <Icon icon="Question" /> See Requests
           </button>
         }
         modal
-        nested
       >
         {(close) => (
-          <div className="modal">
-            <button className="close" onClick={close}>
+          <div>
+            <button onClick={close}>
               &times;
             </button>
             <ConnectionRequests requests={this.state.connectionRequests} />

@@ -16,7 +16,7 @@ export default () => {
     <Popup
       trigger={
         <button className="button">
-          <Icon icon="addcontact" />
+          <Icon icon="AddContact" /> Add Contact
         </button>
       }
       modal

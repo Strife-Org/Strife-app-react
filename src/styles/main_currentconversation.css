@@ -1,0 +1,72 @@
+.main .currentConversation {
+    grid-area: CurrentConversation;
+    background: white;
+}
+
+.main .currentConversation a{
+    color: blue;
+}
+
+.main .currentConversation .messages {
+    padding: 5px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: center;
+    height: calc(100vh - 110px);
+    box-sizing: border-box;
+    width: calc(100vw - max(25vw, 200px));
+    overflow: auto;
+}
+
+.main .currentConversation .message {
+    display: inline-flex;
+}
+
+.main .currentConversation .message.own {
+    align-self: flex-start;
+    background: blue;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.main .currentConversation p {
+    margin: 0;
+    max-width: calc(0.7 * calc(100vw - max(25vw, 200px)));
+    word-wrap: break-word;
+}
+
+.main .currentConversation .message.other {
+    align-self: flex-end;
+    background: gray;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.main .currentConversationBar {
+    background: #EDF2F5;
+    height: 50px;
+    width: 100%;
+}
+
+.main .currentConversationBar .userData {
+    display: block;
+    padding: 9px;
+}
+
+.main .currentConversationBar .profilePic {
+    vertical-align: middle;
+    border-radius: 16px;
+    margin-left: 5px;
+}
+
+.main .currentConversationBar .displayName {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0;
+}

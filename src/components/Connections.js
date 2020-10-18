@@ -38,6 +38,6 @@ export default class Conversations extends Component {
         <Connection data={connection} onClick={() => this.props.changeConversationId(connection.id)} />
       </li>
     ));
-    return <ul>{connectionsList}</ul>;
+    return <ul className="connections">{connectionsList}</ul>;
   }
 }

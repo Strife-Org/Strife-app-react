@@ -1,0 +1,66 @@
+.messageForm {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, #fff 60%);
+  z-index: 9;
+  background-position: center;
+  background-size: contain;
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  padding: 7px;
+  box-sizing: content-box;
+  }
+
+.contentEditableContainer {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 10px;
+  position: relative;
+  box-sizing: border-box;
+  width: calc(100% - 158px);
+  border-radius: 17px;
+}
+.contentEditable {
+  box-sizing: border-box;
+  line-height: 34px;
+  padding: 5px;
+  border-radius: 17px;
+  border: solid gray 1px;
+  outline: none;
+  z-index: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+}
+
+.contentEditable:focus {
+  border-color: blue;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-origin: border-box;
+  height: 44px;
+  padding: 5px;
+  line-height: 34px;
+  z-index: 0;
+}
+
+.sendButton {
+  display: inline-block;
+  border: none;
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+  margin: 0 10px;
+}
+
+.fileButton {
+  display: inline-block;
+  border: none;
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+}

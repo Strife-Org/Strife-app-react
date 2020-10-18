@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import styles from "./styles/Message.module.css";
-import classNames from "classnames";
 import firebase from "firebase/app";
 import "firebase/storage";
 import { saveAs } from "file-saver";
 
 import {markdown} from "markdown";
+
+import classnames from "classnames";
 
 function Message(props) {
   var [bytes, setBytes] = useState("");
@@ -19,16 +19,18 @@ function Message(props) {
       setFileType(metadata.contentType);
     });
   }
+  var bytesText = ""
+  if(bytes < 1024) {
+    bytesText = `${bytes} bytes`
+  } else if(bytes < 1048576) {
+    bytesText = `${(bytes/1024).toFixed(2)} kb`
+  } else {
+    bytesText = `${(bytes/1048576).toFixed(2)} mb`
+  }
   return (
-    <div
-      className={classNames(
-        styles.message,
-        props.isOwner ? styles.own : styles.other
-      )}
-    >
+    <div className={classnames('message', props.isOwner? 'own' : 'other')}>
       {props.file ? (
         <a
-          style={{ color: "white" }}
           href={props.file}
           download={fileName}
           onClick={(e) => {
@@ -46,7 +48,7 @@ function Message(props) {
           {fileType && fileType.startsWith("image") ? (
             (<div><img alt="Received" src={props.file} style={{maxWidth: "40vw"}} /></div>)
           ) : null}
-          {bytes} bytes {fileName}
+          <span className="byteCount">{bytesText}</span> {fileName}
         </a>
       ) : null}
       <div dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}></div>

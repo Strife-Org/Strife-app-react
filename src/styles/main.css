@@ -1,0 +1,133 @@
+.main {
+  display: grid;
+  grid-template-areas: "OwnUserInfo CurrentConversation" "Connections CurrentConversation";
+  grid-template-columns: max(25vw, 200px) 75vw;
+  grid-template-rows: 50px auto;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main .ownUserDataContainer {
+  background-color: var(--gray0);
+  grid-area: OwnUserInfo;
+  height: 100%;
+  width: 100%;
+}
+
+.main .ownUserData {
+  padding: 9px;
+  height: 32px;
+}
+
+.main .ownUserData .ownProfilePic {
+  vertical-align: top;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+}
+
+.main .ownUserData .ownName {
+  margin: 0 10px;
+  display: inline-block;
+  height: 32px;
+  vertical-align: top;
+}
+
+#popup-root .settings{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#popup-root .setting button{
+  background: none;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  width: 100%;
+  text-align: left;
+  transition: ease-in-out 250ms;
+}
+
+#popup-root .setting button:hover{
+  background: rgb(197, 194, 194);
+}
+
+#popup-root .setting img {
+  vertical-align: middle;
+}
+
+.main .ownUserData .settingsButton {
+  float: right;
+  vertical-align: top;
+  border: 0;
+  height: 32px;
+  width: 32px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+}
+.main .ownUserData .settingsIcon {
+  padding: 6px;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  transition: none;
+}
+
+.main .ownUserData .settingsButton:hover .settingsIcon,
+.main .ownUserData .settingsButton:focus .settingsIcon {
+  transform: rotate(120deg);
+  transition: all 0.4s ease-in-out;
+}
+
+.main .connections {
+  grid-area: Connections;
+  height: 100%;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background: #f1f2f6;
+  box-shadow: 0 5px 6px rgba(95, 95, 95, 0.5);
+  z-index: 999;
+}
+
+.main .connections button {
+  text-align: left;
+  width: 100%;
+  padding: 9px;
+  border: none;
+  box-sizing: border-box;
+  border-bottom: solid rgb(240, 230, 230) 1px;
+  cursor: pointer;
+}
+
+.main .connections button img {
+  vertical-align: middle;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+}
+
+.main .connections button h3 {
+  margin: 0 10px;
+  display: inline-block;
+  vertical-align: middle;
+  /* font-size: 1.5rem; */
+}
+/* THEMES */
+:root {
+  --white: #f1f2f6;
+  --gray0: #a4a5a8;
+  --gray1: rgb(119, 119, 119);
+  --gray2: rgb(47, 36, 109);
+  --gray3: rgb(9, 5, 32);
+}
+
+.dark {
+}
+
+.light {
+}
