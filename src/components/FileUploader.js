@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Popup from "reactjs-popup";
-import Icon from "./Icon";
-
 import firebase from "firebase/app";
 import "firebase/storage";
 
 import { v1 } from "uuid";
+import { FaPaperclip } from "react-icons/fa";
 
 export default class FileUploader extends Component {
   state = {
@@ -28,7 +27,7 @@ export default class FileUploader extends Component {
       <Popup
         trigger={
           <button className="fileButton">
-            <Icon icon="Paperclip" className="fileIcon" />
+            <FaPaperclip viewbox="0 0 500 500" className="icon fileIcon" />
           </button>
         }
         modal

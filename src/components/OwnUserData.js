@@ -3,7 +3,7 @@ import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import SignoutButton from "./SignoutButton";
 import ManageContact from "./ManageContacts";
 import Popup from "reactjs-popup";
-import Icon from "./Icon";
+import {FaCog} from "react-icons/fa";
 
 const settings = [
   ManageContact,
@@ -28,7 +28,7 @@ export default function OwnUserData(props) {
               <Popup
                 trigger={(open) => (
                   <button className="settingsButton">
-                    <Icon className="settingsIcon" icon="Cog" />
+                    <FaCog viewBox="0 0 500 500" className="icon settingsIcon" icon="Cog" />
                   </button>
                 )}
                 position="bottom left"

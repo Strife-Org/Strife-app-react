@@ -201,6 +201,18 @@
   background-color: red;
 }
 
+.signout svg, .signout span {
+  vertical-align: middle;
+}
+
+.signout svg {
+  height: 20px;
+}
+
+.settingButton svg, .settingButton span {
+  vertical-align: middle;
+}
+
 /* THEMES */
 :root {
   --white: #f1f2f6;

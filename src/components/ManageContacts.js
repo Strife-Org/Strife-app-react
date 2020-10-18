@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Popup from "./Popup";
 import AddContactTab from "./AddContactTab";
 import ConnectionRequestsTab from "./ConnectionRequestsTab";
-import Icon from "./Icon";
+import {FaUserFriends} from "react-icons/fa";
 
 const tabs = [
   { name: "Create connections", component: AddContactTab },
@@ -14,7 +14,7 @@ export default function AddContact() {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   return (
     <Popup
-      trigger={<button className="settingButton"><Icon icon="Connection" /> Manage Connections</button>}
+      trigger={<button className="settingButton"><FaUserFriends viewBox="0 0 700 500" className="icon" /> Manage Connections</button>}
     >
       <ul className="tabs">
         {tabs.map((tab) => {

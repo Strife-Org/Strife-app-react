@@ -49,3 +49,8 @@ code {
   background: lightgray;
   box-shadow: 1px 1px 4px 0px black;
 }
+
+.icon {
+  height: 24px;
+  width: 24px;
+}

@@ -4,6 +4,7 @@ import axios from "axios";
 import Connection from "./Connection";
 import firebase from "firebase/app";
 import Loader from "react-loader-spinner";
+import { FaPlus } from "react-icons/fa";
 
 export default () => {
   var [contactName, setContactName] = useState("");
@@ -44,7 +45,7 @@ export default () => {
           value={contactName}
           placeholder="Contact name"
         />
-        <button type="submit">+</button>
+        <button type="submit"><FaPlus viewBox="0 0 500 500" className="icon" style={{height: '12px'}} /></button>
       </form>
       {loading ? (
         <Loader

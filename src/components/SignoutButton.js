@@ -1,4 +1,4 @@
-import Icon from "./Icon";
+import {FaSignOutAlt} from "react-icons/fa";
 import React from "react";
 
 export default function SignoutButton() {
@@ -7,7 +7,7 @@ export default function SignoutButton() {
         e.preventDefault();
         window.signout()
     }}>
-      <Icon icon="signout" /> Signout
+      <FaSignOutAlt className="icon" viewBox="0 0 500 500" /><span> Signout</span>
     </button>
   );
 }
