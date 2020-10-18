@@ -40,7 +40,7 @@
   padding: 0;
 }
 
-#popup-root .setting button{
+#popup-root .setting .settingButton {
   background: none;
   border: none;
   outline: none;
@@ -50,7 +50,7 @@
   transition: ease-in-out 250ms;
 }
 
-#popup-root .setting button:hover{
+#popup-root .setting .settingButton:hover{
   background: rgb(197, 194, 194);
 }
 

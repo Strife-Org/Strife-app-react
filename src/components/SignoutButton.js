@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SignoutButton() {
   return (
-    <button className="signout" onClick={(e) => {
+    <button className="settingButton signout" onClick={(e) => {
         e.preventDefault();
         window.signout()
     }}>

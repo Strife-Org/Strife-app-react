@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Popup from "reactjs-popup";
+import Popup from "./Popup";
 import Icon from "./Icon";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -48,6 +48,7 @@ export default class ConnectionRequestsButton extends Component {
     var requests = [];
     querySnapshot.forEach((doc) => {
       var data = doc.data();
+      console.log(JSON.stringify(data))
       data.id = doc.id;
       delete data.users[firebase.auth().currentUser.uid];
       data.user = data.users[Object.keys(data.users)[0]];
@@ -69,7 +70,7 @@ export default class ConnectionRequestsButton extends Component {
     return (
       <Popup
         trigger={
-          <button>
+          <button className="settingButton">
             <Icon icon="Question" /> See Requests
           </button>
         }
@@ -77,9 +78,6 @@ export default class ConnectionRequestsButton extends Component {
       >
         {(close) => (
           <div>
-            <button onClick={close}>
-              &times;
-            </button>
             <ConnectionRequests requests={this.state.connectionRequests} />
           </div>
         )}
