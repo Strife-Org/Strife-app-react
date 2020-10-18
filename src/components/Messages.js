@@ -3,7 +3,6 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import Message from "./Message";
-import { set } from "react-ga";
 
 export default function Messages(props) {
   const scrollIntoView = useRef();
