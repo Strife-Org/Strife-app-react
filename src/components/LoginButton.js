@@ -1,10 +1,15 @@
 import React from "react";
-import Icon from "./Icon";
+
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { v4 } from "uuid";
+
+import {FcGoogle} from "react-icons/fc";
+import {FaGithub} from "react-icons/fa";
+
 const { ipcRenderer } = window.require("electron");
+
 
 export default function LoginButton(props) {
   var db = firebase.firestore();
@@ -36,12 +41,15 @@ export default function LoginButton(props) {
   }
 
   var icon;
+  var iconUnit;
   switch(props.provider) {
     case "github":
-      icon = "Github"
+      icon = FaGithub
+      iconUnit = 500
       break;
     case "google":
-      icon= "Google"
+      icon= FcGoogle
+      iconUnit = 50
       break;
     default:
       console.error('Fix provider')
@@ -49,7 +57,7 @@ export default function LoginButton(props) {
 
   return (
     <button onClick={handleClick} className="loginButton">
-      <Icon className="loginButtonIcon" icon={icon} />
+      {React.createElement(icon, {className: 'loginIcon', size: 25, viewBox: `0 0 ${iconUnit} ${iconUnit}`})}
       <span className="loginButtonText">Log-in with {props.provider}</span>
     </button>
   );

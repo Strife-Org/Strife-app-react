@@ -11,7 +11,7 @@ import "../styles/main_currentconversation.css";
 
 export default class CurrentConversation extends Component {
   state = {
-    currentConversation: "",
+    currentConveration: "",
     messages: {},
     conversationsData: {},
     listeners: [],
@@ -20,54 +20,63 @@ export default class CurrentConversation extends Component {
   };
   database = firebase.database();
 
-  async componentDidUpdate(newProps) {
-    if (!this.state.messages[newProps.conversationId]) {
+  async componentDidUpdate() {
+    if (!this.state.messages[this.props.conversationId]) {
       var conversations = this.state.messages;
-      conversations[newProps.conversationId] = {};
+      conversations[this.props.conversationId] = {};
       this.setState({ conversations: conversations });
     }
-    if (newProps.conversationId !== this.state.currentConversation) {
-      this.setState({ currentConversation: newProps.conversationId });
-      if (newProps.conversationId !== "!exists") {
+    if (this.props.conversationId !== this.state.currentConversation) {
+      this.setState({ currentConversation: this.props.conversationId });
+      if (this.props.conversationId !== "!exists") {
         const conversationRef = this.database.ref(
-          "/conversations/" + newProps.conversationId
+          "/conversations/" + this.props.conversationId
         );
-        console.log(newProps.conversationId)
         const messagesRef = conversationRef.child("messages");
         const conversationDataRef = conversationRef.child("data");
         var listeners = this.state.listeners;
         conversationDataRef.once("value").then((snapshot) => {
+          if (!snapshot.exists()) {
+            var d = {
+              user: {
+                displayName: "Conversation Not Found",
+                photoURL:
+                  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.archgard.com%2Fassets%2Fupload_fallbacks%2Fimage_not_found-54bf2d65c203b1e48fea1951497d4f689907afe3037d02a02dcde5775746765c.png&f=1&nofb=1",
+              },
+            };
+            var s = {};
+            s.conversationsData = this.state.conversationsData;
+            s.conversationsData[this.props.conversationId] = d;
+            this.setState(s);
+            return console.error("conversation not found");
+          }
           var data = snapshot.val();
-          console.log(data)
           delete data.members[firebase.auth().currentUser.uid];
           data.user = data.members[Object.keys(data.members)[0]];
           window.titleBar.updateTitle(`${data.user.displayName} - Strife Chat`);
           var state = {};
           state.conversationsData = this.state.conversationsData;
           state.conversationsData[this.props.conversationId] = data;
+          this.setState(state);
         });
         listeners.push(
-          [
-            messagesRef
-              .orderByChild("sentAt")
-              .on("child_added", (snapshot, b) => {
-                var data = {};
-                data.conversations = this.state.messages;
-                data.conversations[newProps.conversationId] =
-                  data.conversations[newProps.conversationId] || {};
-                data.conversations[newProps.conversationId][
-                  snapshot.key
-                ] = snapshot.val();
-                this.setState(data);
-              }),
-            ]
-          // ],
-          // conversationDataRef.on("child_changed", (snapshot, b) => {
-          // })
+          messagesRef
+            .orderByChild("sentAt")
+            .on("child_added", (snapshot, b) => {
+              var data = {};
+              data.conversations = this.state.messages;
+              data.conversations[this.props.conversationId] =
+                data.conversations[this.props.conversationId] || {};
+              data.conversations[this.props.conversationId][
+                snapshot.key
+              ] = snapshot.val();
+              this.setState(data);
+            })
         );
         this.setState({ listeners });
       } else {
-        if(document.title !== "Strife Chat") window.titleBar.updateTitle("Strife Chat")
+        if (document.title !== "Strife Chat")
+          window.titleBar.updateTitle("Strife Chat");
       }
     }
   }
@@ -86,16 +95,31 @@ export default class CurrentConversation extends Component {
               }
               photoURL={
                 this.state.conversationsData[this.props.conversationId].user
-                  .profileURL
+                  .photoURL
               }
             />
           ) : (
-            <div>Loading</div>
+            <Loader
+              type="TailSpin"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              timeout={3000} //3 secs
+            />
           )}
-          {this.state.messages[this.props.conversationId] ? (
-            <Messages contentEditableHeight={this.state.contentEditableHeight} data={this.state.messages[this.props.conversationId]} />
+          {(typeof this.state.messages[this.props.conversationId] === "object") ? (
+            <Messages
+              contentEditableHeight={this.state.contentEditableHeight}
+              data={this.state.messages[this.props.conversationId]}
+            />
           ) : (
-            <div>Loading...</div>
+            <Loader
+              type="TailSpin"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              timeout={3000} //3 secs
+            />
           )}
           <MessageForm
             contentEditableHeight={this.state.contentEditableHeight}

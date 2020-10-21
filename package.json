@@ -1,6 +1,6 @@
 {
   "name": "strife-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "A chat app for developers",
   "author": "Strife Org",
@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ga": "^3.1.2",
+    "react-icons": "^3.11.0",
     "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",

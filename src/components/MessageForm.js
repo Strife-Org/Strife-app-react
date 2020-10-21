@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
-import Icon from "./Icon";
+import {FaRegPaperPlane} from "react-icons/fa";
 
 import "../styles/main__currentconversation__messageform.css"
 
@@ -67,7 +67,7 @@ function MessageForm(props) {
         </div>
       </div>
       <button type="submit" onClick={handleSubmit} className="sendButton" >
-          <Icon icon="PaperPlane" className="sendIcon" />
+          <FaRegPaperPlane viewBox="0 0 500 500" className="icon sendIcon" />
         </button>
       <FileUploader
         commentDefault={message}

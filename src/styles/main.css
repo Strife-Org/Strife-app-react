@@ -1,7 +1,7 @@
 .main {
   display: grid;
   grid-template-areas: "OwnUserInfo CurrentConversation" "Connections CurrentConversation";
-  grid-template-columns: max(25vw, 200px) 75vw;
+  grid-template-columns: max(25vw, 250px) 75vw;
   grid-template-rows: 50px auto;
   height: 100%;
   width: 100%;
@@ -13,6 +13,7 @@
   grid-area: OwnUserInfo;
   height: 100%;
   width: 100%;
+  z-index: 3;
 }
 
 .main .ownUserData {
@@ -34,13 +35,31 @@
   vertical-align: top;
 }
 
-#popup-root .settings{
+.userData {
+  display: block;
+  padding: 9px;
+}
+
+.userData .profilePic {
+  vertical-align: middle;
+  border-radius: 16px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.userData .displayName {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0;
+}
+
+#popup-root .settings {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-#popup-root .setting button{
+#popup-root .setting .settingButton {
   background: none;
   border: none;
   outline: none;
@@ -50,7 +69,7 @@
   transition: ease-in-out 250ms;
 }
 
-#popup-root .setting button:hover{
+#popup-root .setting .settingButton:hover {
   background: rgb(197, 194, 194);
 }
 
@@ -91,7 +110,7 @@
   margin: 0;
   background: #f1f2f6;
   box-shadow: 0 5px 6px rgba(95, 95, 95, 0.5);
-  z-index: 999;
+  z-index: 2;
 }
 
 .main .connections button {
@@ -117,6 +136,189 @@
   vertical-align: middle;
   /* font-size: 1.5rem; */
 }
+
+.tabs {
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.tab {
+  display: inline-block;
+  margin-right: 10px;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  height: 38.5px;
+}
+
+.tab button {
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.tab button:focus {
+  outline: none;
+}
+
+.tab.active {
+  position: relative;
+  color: rgb(6, 6, 224);
+  font-weight: bolder;
+  border-bottom: 3px solid rgb(6, 6, 224);
+  transition: all 0.2s ease-in-out;
+}
+
+.connectionRequests {
+  list-style-type: none;
+}
+
+.connectionRequests .userData {
+  display: inline-block;
+}
+
+.connectionRequests .approveDecline button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  margin: 0 5px;
+  color: white;
+  border: none;
+  border-radius: 40%;
+}
+
+.approveDecline button svg {
+  transform: scale(1.4);
+  vertical-align: middle;
+}
+
+.approveDecline .approve {
+  background-color: green;
+}
+
+.approveDecline .decline {
+  background-color: red;
+}
+
+.signout svg,
+.signout span {
+  vertical-align: middle;
+}
+
+.signout svg {
+  height: 20px;
+}
+
+.settingButton svg,
+.settingButton span {
+  vertical-align: middle;
+}
+
+.contactName {
+  box-sizing: border-box;
+  width: 80%;
+  height: 3em;
+  vertical-align: top;
+  border-radius: 1.5em;
+  padding: 10px;
+  border: solid 1px #a0a0a0;
+  outline: none;
+}
+
+.findContact {
+  border-radius: 50%;
+  box-sizing: border-box;
+  width: 3em;
+  height: 3em;
+  margin-left: 10px;
+  border: none;
+  background: darkgray;
+  color: white;
+}
+
+.loader {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.addContact ul {
+  padding: 0;
+  list-style-type: none;
+  margin-top: 15px;
+}
+
+.addContact li button {
+  cursor: pointer;
+  width: calc(80% + 3em + 10px);
+  height: 54px;
+  border-radius: 32px;
+  text-align: left;
+  box-sizing: border-box;
+  border: solid 1px lightgray;
+  background: none;
+}
+
+.addContact li button h3,
+.addContact li button img {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  margin: 0;
+}
+
+.addContact li button img {
+  margin-right: 10px;
+}
+
+.manageConnectionsContainer {
+  float: right;
+  vertical-align: top;
+  border: 0;
+  height: 32px;
+  width: 32px;
+  margin: 0;
+  padding: 0;
+  margin-right: 5px;
+}
+
+.manageConnectionsButton {
+  position: relative;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  height: 32px;
+  width: 100%;
+  text-align: left;
+  transition: ease-in-out 250ms;
+  padding: 0;
+  --pendingConnections: "0";
+}
+
+.manageConnectionsButton svg {
+  padding: 6px 5px 6px 7px;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  box-sizing: content-box;
+  transition: none;
+}
+
+.manageConnectionsButton.pending::after {
+  content: var(--pendingConnections);
+  position: absolute;
+  top: -5px;
+  left: calc(100% - 10px);
+  height: 15px;
+  min-width: 7.5px;
+  text-align: center;
+  padding: 0 3.75px;
+  border-radius: 7.5px;
+  background: red;
+  color: white;
+}
+
 /* THEMES */
 :root {
   --white: #f1f2f6;

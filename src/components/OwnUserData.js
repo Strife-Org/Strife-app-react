@@ -1,16 +1,11 @@
 import React from "react";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import SignoutButton from "./SignoutButton";
-import AddContact from "./AddContact";
-import ConnectionRequestsButton from "./ConnectionRequestsButton";
 import Popup from "reactjs-popup";
-import Icon from "./Icon";
+import { FaCog } from "react-icons/fa";
+import ManageConnections from "./ManageConnections"
 
-const settings = [
-  <AddContact />,
-  <ConnectionRequestsButton />,
-  <SignoutButton />,
-];
+const settings = [SignoutButton];
 
 export default function OwnUserData(props) {
   return (
@@ -30,18 +25,29 @@ export default function OwnUserData(props) {
               <Popup
                 trigger={(open) => (
                   <button className="settingsButton">
-                    <Icon className="settingsIcon" icon="Cog" />
+                    <FaCog
+                      viewBox="0 0 500 500"
+                      className="icon settingsIcon"
+                      icon="Cog"
+                    />
                   </button>
                 )}
                 position="bottom left"
                 closeOnDocumentClick
-              >
+              >{(close) => (
                 <ul className="settings">
                   {settings.map((setting) => (
-                    <li className="setting">{setting}</li>
+                    <li className="setting" key={setting.name}>
+                      {React.createElement(setting, {
+                        existingConnections: props.existingConnections,
+                        closeTooltip: close
+                      })}
+                    </li>
                   ))}
                 </ul>
+                )}
               </Popup>
+              <ManageConnections existingConnections={props.existingConnections} />
             </div>
           </div>
         );

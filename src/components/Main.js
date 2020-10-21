@@ -1,52 +1,161 @@
 import React, { Component } from "react";
 import OwnUserData from "./OwnUserData";
-import Conversations from "./Connections";
+import Connections from "./Connections";
 import CurrentConversation from "./CurrentConversation";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import "../styles/main.css"
+import "../styles/main.css";
 export default class Main extends Component {
   state = {
     currentConversation: "",
+    existingConnections: [],
   };
 
+  unsubscribe;
+
   async componentDidMount() {
-    if (this.state.currentConversation === "") {
+    if (!firebase.auth().currentUser) {
       firebase
         .firestore()
         .collection("connections")
-        .where("accepted", "==", 1)
         .where(`users.${firebase.auth().currentUser.uid}.exists`, "==", true)
-        .limit(1)
         .get()
         .then((response) => {
-          if (response.docs.length > 0) {
-            return response.docs[0].id;
-          } else {
-            return null;
-          }
-        })
-        .then((id) => {
-          if (id) {
-            this.setState({ currentConversation: id });
-          } else {
-            this.setState({ currentConversation: "!exists" });
-          }
+          var existingConnections = [];
+          var latestConnection = null;
+          const ownUserId = firebase.auth().currentUser.uid;
+          response.forEach((doc) => {
+            if (doc.exists) {
+              var data = doc.data();
+              delete data.users[ownUserId];
+              var otherUser = data.users[Object.keys(data.users)[0]];
+              otherUser.id = Object.keys(data.users)[0];
+              var connection = doc.data();
+              connection.id = doc.id;
+              connection.user = otherUser;
+              existingConnections.push(connection);
+            }
+            if (doc.data().accepted === 1 && latestConnection === null) {
+              latestConnection = doc.id;
+            }
+          });
+          this.setState({
+            currentConversation: latestConnection || "!exists",
+            existingConnections,
+          });
         });
+
+      this.unsubscribe = firebase
+        .firestore()
+        .collection("connections")
+        .where(`users.${firebase.auth().currentUser.uid}.exists`, "==", true)
+        .onSnapshot((response) => {
+          var existingConnections = [];
+          const ownUserId = firebase.auth().currentUser.uid;
+          response.forEach((doc) => {
+            if (doc.exists) {
+              var data = doc.data();
+              delete data.users[ownUserId];
+              var otherUser = data.users[Object.keys(data.users)[0]];
+              otherUser.id = Object.keys(data.users)[0];
+              var connection = doc.data();
+              connection.id = doc.id;
+              connection.user = otherUser;
+              existingConnections.push(connection);
+            }
+          });
+          this.setState({
+            existingConnections,
+          });
+        });
+    } else {
+      const u = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          firebase
+            .firestore()
+            .collection("connections")
+            .where(
+              `users.${firebase.auth().currentUser.uid}.exists`,
+              "==",
+              true
+            )
+            .get()
+            .then((response) => {
+              var existingConnections = [];
+              var latestConnection = null;
+              const ownUserId = firebase.auth().currentUser.uid;
+              response.forEach((doc) => {
+                if (doc.exists) {
+                  var data = doc.data();
+                  delete data.users[ownUserId];
+                  var otherUser = data.users[Object.keys(data.users)[0]];
+                  otherUser.id = Object.keys(data.users)[0];
+                  var connection = doc.data();
+                  connection.id = doc.id;
+                  connection.user = otherUser;
+                  existingConnections.push(connection);
+                }
+                if (doc.data().accepted === 1 && latestConnection === null) {
+                  latestConnection = doc.id;
+                }
+              });
+              this.setState({
+                currentConversation: latestConnection || "!exists",
+                existingConnections,
+              });
+            });
+
+          this.unsubscribe = firebase
+            .firestore()
+            .collection("connections")
+            .where(
+              `users.${firebase.auth().currentUser.uid}.exists`,
+              "==",
+              true
+            )
+            .onSnapshot((response) => {
+              var existingConnections = [];
+              const ownUserId = firebase.auth().currentUser.uid;
+              response.forEach((doc) => {
+                if (doc.exists) {
+                  var data = doc.data();
+                  delete data.users[ownUserId];
+                  var otherUser = data.users[Object.keys(data.users)[0]];
+                  otherUser.id = Object.keys(data.users)[0];
+                  var connection = doc.data();
+                  connection.id = doc.id;
+                  connection.user = otherUser;
+                  existingConnections.push(connection);
+                }
+              });
+              this.setState({
+                existingConnections,
+              });
+            });
+            u();
+        }
+      });
     }
+
+    window.setCurrentConversation = (id) => {
+      if (this.state.currentConversation !== id) {
+        this.setState({ currentConversation: id });
+      }
+    };
   }
 
   render() {
     return (
       <div className="main">
-        <OwnUserData />
-        <Conversations
+        <OwnUserData existingConnections={this.state.existingConnections} />
+        <Connections
           changeConversationId={(newId) => {
             if (this.state.currentConversation !== newId) {
               this.setState({ currentConversation: newId });
             }
           }}
+          existingConnections={this.state.existingConnections}
         />
         <CurrentConversation conversationId={this.state.currentConversation} />
       </div>

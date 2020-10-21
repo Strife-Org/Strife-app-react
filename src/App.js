@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import CustomRouter from "./components/CustomRouter";
+import "reactjs-popup/dist/index.css";
+
 const { ipcRenderer } = window.require("electron");
 export default class App extends Component {
   constructor(props) {
@@ -28,8 +30,6 @@ export default class App extends Component {
   }
 
   render() {
-    return (
-      <CustomRouter/>
-    );
+    return <CustomRouter />;
   }
 }
