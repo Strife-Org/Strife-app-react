@@ -25,8 +25,9 @@ function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true,
     },
-    show: false,
+    show: false
   });
+  Menu.setApplicationMenu(null);
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
