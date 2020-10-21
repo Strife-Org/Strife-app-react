@@ -11,6 +11,20 @@ export default ({ existingConnections, changeTab, closePopup }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  if(foundContacts) {
+    var docs = foundContacts
+    var changed = false
+    foundContacts.forEach((contact, i) => {
+      if (existingConnections.find(connection => connection.users[contact.id])) {
+        docs.splice(i, 1)
+        changed = true
+      }
+    })
+    if(changed) {
+      setFoundContacts(docs)
+    }
+  }
+
   var foundContactsArea;
   if (error) {
     foundContactsArea = <h2>{error}</h2>;
@@ -36,7 +50,9 @@ export default ({ existingConnections, changeTab, closePopup }) => {
           <li key={contact.id}>
             <button
               onClick={() => {
-                const connection = existingConnections.find((connection) => connection.user.id === contact.id);
+                const connection = existingConnections.find(
+                  (connection) => connection.user.id === contact.id
+                );
                 if (connection) {
                   if (connection.users[contact.id]) {
                     if (connection.accepted === 1) {
@@ -47,7 +63,9 @@ export default ({ existingConnections, changeTab, closePopup }) => {
                     ) {
                       changeTab();
                     } else {
-                      setError("Please wait for the user to accept your request")
+                      setError(
+                        "Please wait for the user to accept your request"
+                      );
                     }
                   }
                 } else {
@@ -58,11 +76,18 @@ export default ({ existingConnections, changeTab, closePopup }) => {
                     displayName: firebase.auth().currentUser.displayName,
                     photoURL: firebase.auth().currentUser.photoURL,
                   };
-                  users[contact.uid] = {
+                  users[contact.id] = {
                     exists: true,
                     displayName: contact.displayName,
                     photoURL: contact.photoURL,
                   };
+                  console.log({
+                    accepted: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    users: users,
+                    requester: firebase.auth().currentUser.uid,
+                    requested: contact.id,
+                  });
                   firebase
                     .firestore()
                     .collection("connections")
@@ -71,7 +96,7 @@ export default ({ existingConnections, changeTab, closePopup }) => {
                       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                       users: users,
                       requester: firebase.auth().currentUser.uid,
-                      requested: contact.uid,
+                      requested: contact.id,
                     })
                     .then(() => {
                       setLoading(false);
@@ -97,12 +122,12 @@ export default ({ existingConnections, changeTab, closePopup }) => {
         onSubmit={(e) => {
           e.preventDefault();
           setLoading(true);
-          const publicUserCollection = firebase
+          const publicUsersCollection = firebase
             .firestore()
-            .collection("publicUser");
+            .collection("publicUsers");
           Promise.all([
-            publicUserCollection.doc(contactName.trim()).get(),
-            publicUserCollection
+            publicUsersCollection.doc(contactName.trim()).get(),
+            publicUsersCollection
               .where("displayName", "==", contactName.trim())
               .get(),
           ]).then((returned) => {
@@ -116,7 +141,7 @@ export default ({ existingConnections, changeTab, closePopup }) => {
               docs[docs.length - 1].id = doc.id;
             });
             docs.forEach((doc, index) => {
-              if (doc.id === firebase.auth().currentUser.uid) {
+              if (doc.id === firebase.auth().currentUser.uid || existingConnections.find(connection => connection.users[doc.id])) {
                 docs.splice(index, 1);
               }
             });

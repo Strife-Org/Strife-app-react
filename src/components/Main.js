@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import OwnUserData from "./OwnUserData";
-import Conversations from "./Connections";
+import Connections from "./Connections";
 import CurrentConversation from "./CurrentConversation";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -12,8 +12,10 @@ export default class Main extends Component {
     existingConnections: [],
   };
 
+  unsubscribe;
+
   async componentDidMount() {
-    if (this.state.currentConversation === "") {
+    if (!firebase.auth().currentUser) {
       firebase
         .firestore()
         .collection("connections")
@@ -28,13 +30,13 @@ export default class Main extends Component {
               var data = doc.data();
               delete data.users[ownUserId];
               var otherUser = data.users[Object.keys(data.users)[0]];
-              otherUser.id = Object.keys(data.users)[0]
-              var connection = doc.data()
+              otherUser.id = Object.keys(data.users)[0];
+              var connection = doc.data();
               connection.id = doc.id;
-              connection.user = otherUser
+              connection.user = otherUser;
               existingConnections.push(connection);
             }
-            if (doc.data().accepted && !latestConnection) {
+            if (doc.data().accepted === 1 && latestConnection === null) {
               latestConnection = doc.id;
             }
           });
@@ -43,7 +45,99 @@ export default class Main extends Component {
             existingConnections,
           });
         });
+
+      this.unsubscribe = firebase
+        .firestore()
+        .collection("connections")
+        .where(`users.${firebase.auth().currentUser.uid}.exists`, "==", true)
+        .onSnapshot((response) => {
+          var existingConnections = [];
+          const ownUserId = firebase.auth().currentUser.uid;
+          response.forEach((doc) => {
+            if (doc.exists) {
+              var data = doc.data();
+              delete data.users[ownUserId];
+              var otherUser = data.users[Object.keys(data.users)[0]];
+              otherUser.id = Object.keys(data.users)[0];
+              var connection = doc.data();
+              connection.id = doc.id;
+              connection.user = otherUser;
+              existingConnections.push(connection);
+            }
+          });
+          this.setState({
+            existingConnections,
+          });
+        });
+    } else {
+      const u = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          firebase
+            .firestore()
+            .collection("connections")
+            .where(
+              `users.${firebase.auth().currentUser.uid}.exists`,
+              "==",
+              true
+            )
+            .get()
+            .then((response) => {
+              var existingConnections = [];
+              var latestConnection = null;
+              const ownUserId = firebase.auth().currentUser.uid;
+              response.forEach((doc) => {
+                if (doc.exists) {
+                  var data = doc.data();
+                  delete data.users[ownUserId];
+                  var otherUser = data.users[Object.keys(data.users)[0]];
+                  otherUser.id = Object.keys(data.users)[0];
+                  var connection = doc.data();
+                  connection.id = doc.id;
+                  connection.user = otherUser;
+                  existingConnections.push(connection);
+                }
+                if (doc.data().accepted === 1 && latestConnection === null) {
+                  latestConnection = doc.id;
+                }
+              });
+              this.setState({
+                currentConversation: latestConnection || "!exists",
+                existingConnections,
+              });
+            });
+
+          this.unsubscribe = firebase
+            .firestore()
+            .collection("connections")
+            .where(
+              `users.${firebase.auth().currentUser.uid}.exists`,
+              "==",
+              true
+            )
+            .onSnapshot((response) => {
+              var existingConnections = [];
+              const ownUserId = firebase.auth().currentUser.uid;
+              response.forEach((doc) => {
+                if (doc.exists) {
+                  var data = doc.data();
+                  delete data.users[ownUserId];
+                  var otherUser = data.users[Object.keys(data.users)[0]];
+                  otherUser.id = Object.keys(data.users)[0];
+                  var connection = doc.data();
+                  connection.id = doc.id;
+                  connection.user = otherUser;
+                  existingConnections.push(connection);
+                }
+              });
+              this.setState({
+                existingConnections,
+              });
+            });
+            u();
+        }
+      });
     }
+
     window.setCurrentConversation = (id) => {
       if (this.state.currentConversation !== id) {
         this.setState({ currentConversation: id });
@@ -55,12 +149,13 @@ export default class Main extends Component {
     return (
       <div className="main">
         <OwnUserData existingConnections={this.state.existingConnections} />
-        <Conversations
+        <Connections
           changeConversationId={(newId) => {
             if (this.state.currentConversation !== newId) {
               this.setState({ currentConversation: newId });
             }
           }}
+          existingConnections={this.state.existingConnections}
         />
         <CurrentConversation conversationId={this.state.currentConversation} />
       </div>

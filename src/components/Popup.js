@@ -19,7 +19,7 @@ export default function Popup(props) {
   }
 
   return (
-    <div>
+    <div className={props.className}>
       {react.cloneElement(props.trigger, {
         onClick: () => {setVisible(true)},
       })}

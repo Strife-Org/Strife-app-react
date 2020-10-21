@@ -1,7 +1,7 @@
 .main {
   display: grid;
   grid-template-areas: "OwnUserInfo CurrentConversation" "Connections CurrentConversation";
-  grid-template-columns: max(25vw, 200px) 75vw;
+  grid-template-columns: max(25vw, 250px) 75vw;
   grid-template-rows: 50px auto;
   height: 100%;
   width: 100%;
@@ -13,6 +13,7 @@
   grid-area: OwnUserInfo;
   height: 100%;
   width: 100%;
+  z-index: 3;
 }
 
 .main .ownUserData {
@@ -109,7 +110,7 @@
   margin: 0;
   background: #f1f2f6;
   box-shadow: 0 5px 6px rgba(95, 95, 95, 0.5);
-  z-index: 999;
+  z-index: 2;
 }
 
 .main .connections button {
@@ -259,7 +260,8 @@
   background: none;
 }
 
-.addContact li button h3, .addContact li button img {
+.addContact li button h3,
+.addContact li button img {
   display: inline-block;
   vertical-align: middle;
   text-align: left;
@@ -268,6 +270,53 @@
 
 .addContact li button img {
   margin-right: 10px;
+}
+
+.manageConnectionsContainer {
+  float: right;
+  vertical-align: top;
+  border: 0;
+  height: 32px;
+  width: 32px;
+  margin: 0;
+  padding: 0;
+  margin-right: 5px;
+}
+
+.manageConnectionsButton {
+  position: relative;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  height: 32px;
+  width: 100%;
+  text-align: left;
+  transition: ease-in-out 250ms;
+  padding: 0;
+  --pendingConnections: "0";
+}
+
+.manageConnectionsButton svg {
+  padding: 6px 5px 6px 7px;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  box-sizing: content-box;
+  transition: none;
+}
+
+.manageConnectionsButton.pending::after {
+  content: var(--pendingConnections);
+  position: absolute;
+  top: -5px;
+  left: calc(100% - 10px);
+  height: 15px;
+  min-width: 7.5px;
+  text-align: center;
+  padding: 0 3.75px;
+  border-radius: 7.5px;
+  background: red;
+  color: white;
 }
 
 /* THEMES */

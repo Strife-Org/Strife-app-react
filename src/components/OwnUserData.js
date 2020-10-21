@@ -1,11 +1,11 @@
 import React from "react";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import SignoutButton from "./SignoutButton";
-import ManageContact from "./ManageContacts";
 import Popup from "reactjs-popup";
 import { FaCog } from "react-icons/fa";
+import ManageConnections from "./ManageConnections"
 
-const settings = [ManageContact, SignoutButton];
+const settings = [SignoutButton];
 
 export default function OwnUserData(props) {
   return (
@@ -47,6 +47,7 @@ export default function OwnUserData(props) {
                 </ul>
                 )}
               </Popup>
+              <ManageConnections existingConnections={props.existingConnections} />
             </div>
           </div>
         );

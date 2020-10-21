@@ -4,6 +4,9 @@ import Popup from "./Popup";
 import AddContactTab from "./AddContactTab";
 import ConnectionRequestsTab from "./ConnectionRequestsTab";
 import { FaUserFriends } from "react-icons/fa";
+import classnames from "classnames"
+
+import firebase from "firebase/app";
 
 const tabs = [
   { name: "Create connections", component: AddContactTab },
@@ -12,12 +15,21 @@ const tabs = [
 
 export default function AddContact({existingConnections, closeTooltip}) {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+
+  var pendingConnections = 0;
+  const ownUserId = firebase.auth().currentUser.uid;
+  existingConnections.forEach(connection => {
+    if(connection.requested !== ownUserId) return;
+    if(connection.accepted !== 0) return;
+    pendingConnections++
+  })
+
   return (
     <Popup
+      className="manageConnectionsContainer"
       trigger={
-        <button className="settingButton">
-          <FaUserFriends viewBox="0 0 700 500" className="icon" /> Manage
-          Connections
+        <button className={classnames("manageConnectionsButton", (pendingConnections > 0 ? "pending" : ""))} style={{"--pendingConnections": `"${pendingConnections.toString()}`}} >
+          <FaUserFriends viewBox="0 0 700 500" className="icon" />
         </button>
       }
       afterClose={closeTooltip}
@@ -26,7 +38,7 @@ export default function AddContact({existingConnections, closeTooltip}) {
       <ul className="tabs">
         {tabs.map((tab) => {
           return (
-            <li className={`tab ${currentTab === tab ? "active" : ""}`}>
+            <li key={tab.name} className={`tab ${currentTab === tab ? "active" : ""}`}>
               <button
                 onClick={(e) => {
                   setCurrentTab(tab);
