@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.popup {
+#ownPopupRoot {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -22,7 +22,14 @@ code {
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
 }
+
+#ownPopupRoot.visible {
+  display: initial;
+}
+
 .popupInner {
   position: absolute;
   top: 50%;
