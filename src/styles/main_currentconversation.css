@@ -3,7 +3,11 @@
     background: white;
 }
 
-.main .currentConversation a{
+.main .currentConversation .own a {
+    color: white;
+}
+
+.main .currentConversation .other a {
     color: blue;
 }
 
@@ -19,11 +23,6 @@
     width: calc(100vw - max(25vw, 200px));
     overflow: auto;
 }
-
-.main .currentConversation .message {
-    display: inline-flex;
-}
-
 .main .currentConversation .message.own {
     align-self: flex-start;
     background: blue;

@@ -27,7 +27,11 @@ function createWindow() {
     },
     show: false
   });
+
+  if(!isDev) {
   Menu.setApplicationMenu(null);
+  }
+  
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"

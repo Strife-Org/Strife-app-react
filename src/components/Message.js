@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import { saveAs } from "file-saver";
 
-import {markdown} from "markdown";
+import { markdown } from "markdown";
 
 import classnames from "classnames";
 
@@ -13,22 +13,30 @@ function Message(props) {
   var fileName;
   if (props.file) {
     const fileRef = firebase.storage().refFromURL(props.file);
+    const path = fileRef.fullPath;
+    var width, height;
+    if (path.substr(29, 6) === "images") {
+      const result = path.match(/^[^\/]+\/images\/[^\/]+\/(\d+)\/(\d+)\/.+$/);
+      width = result[1];
+      height = result[2];
+      console.log(height)
+    }
     fileName = fileRef.name;
     fileRef.getMetadata().then((metadata) => {
       setBytes(metadata.size);
       setFileType(metadata.contentType);
     });
   }
-  var bytesText = ""
-  if(bytes < 1024) {
-    bytesText = `${bytes} bytes`
-  } else if(bytes < 1048576) {
-    bytesText = `${(bytes/1024).toFixed(2)} kb`
+  var bytesText = "";
+  if (bytes < 1024) {
+    bytesText = `${bytes} bytes`;
+  } else if (bytes < 1048576) {
+    bytesText = `${(bytes / 1024).toFixed(2)} kb`;
   } else {
-    bytesText = `${(bytes/1048576).toFixed(2)} mb`
+    bytesText = `${(bytes / 1048576).toFixed(2)} mb`;
   }
   return (
-    <div className={classnames('message', props.isOwner? 'own' : 'other')}>
+    <div className={classnames("message", props.isOwner ? "own" : "other")}>
       {props.file ? (
         <a
           href={props.file}
@@ -46,12 +54,22 @@ function Message(props) {
           }}
         >
           {fileType && fileType.startsWith("image") ? (
-            (<div><img alt="Received" src={props.file} style={{maxWidth: "40vw"}} /></div>)
+            <div
+              style={{
+                display: "block",
+                width: width,
+                height: Math.min(height, window.screen.height * 0.4)
+              }}
+            >
+              <img alt="Received" src={props.file} />
+            </div>
           ) : null}
           <span className="byteCount">{bytesText}</span> {fileName}
         </a>
       ) : null}
-      <div dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}></div>
+      <div
+        dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}
+      ></div>
     </div>
   );
 }

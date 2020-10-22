@@ -53,6 +53,7 @@ function MessageForm(props) {
         <div
           id="message"
           contentEditable="true"
+          style={{height: props.setContentEditableHeight}}
           onInput={(e) => {
             setMessage(e.target.innerText);
           }}
