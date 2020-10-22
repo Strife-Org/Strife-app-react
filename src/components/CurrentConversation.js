@@ -7,6 +7,9 @@ import "firebase/database";
 import Messages from "./Messages";
 import MessageForm from "./MessageForm";
 import CurrentConversationBar from "./CurrentConversationBar";
+import ManageConnections from "./ManageConnections";
+import { FaArrowRight } from "react-icons/fa";
+
 import "../styles/main_currentconversation.css";
 
 export default class CurrentConversation extends Component {
@@ -28,37 +31,43 @@ export default class CurrentConversation extends Component {
     }
     if (this.props.conversationId !== this.state.currentConversation) {
       this.setState({ currentConversation: this.props.conversationId });
-      if (this.props.conversationId !== "!exists") {
+      if (
+        this.props.conversationId &&
+        this.props.conversationId !== "!exists"
+      ) {
         const conversationRef = this.database.ref(
           "/conversations/" + this.props.conversationId
         );
         const messagesRef = conversationRef.child("messages");
-        const conversationDataRef = conversationRef.child("data");
         var listeners = this.state.listeners;
-        conversationDataRef.once("value").then((snapshot) => {
-          if (!snapshot.exists()) {
-            var d = {
-              user: {
-                displayName: "Conversation Not Found",
-                photoURL:
-                  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.archgard.com%2Fassets%2Fupload_fallbacks%2Fimage_not_found-54bf2d65c203b1e48fea1951497d4f689907afe3037d02a02dcde5775746765c.png&f=1&nofb=1",
-              },
-            };
-            var s = {};
-            s.conversationsData = this.state.conversationsData;
-            s.conversationsData[this.props.conversationId] = d;
-            this.setState(s);
-            return console.error("conversation not found");
-          }
-          var data = snapshot.val();
-          delete data.members[firebase.auth().currentUser.uid];
-          data.user = data.members[Object.keys(data.members)[0]];
+        const connection = this.props.existingConnections.find(
+          (connection) => connection.id === this.props.conversationId
+        );
+        if (!connection) {
+          var d = {
+            user: {
+              displayName: "Conversation Not Found",
+              photoURL:
+                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.archgard.com%2Fassets%2Fupload_fallbacks%2Fimage_not_found-54bf2d65c203b1e48fea1951497d4f689907afe3037d02a02dcde5775746765c.png&f=1&nofb=1",
+            },
+          };
+          var s = {};
+          s.conversationsData = this.state.conversationsData;
+          s.conversationsData[this.props.conversationId] = d;
+          this.setState(s);
+          console.log(this.props.conversationId);
+          return console.error("conversation not found");
+        } else {
+          var data = connection;
+          delete data.users[firebase.auth().currentUser.uid];
+          data.user = data.users[Object.keys(data.users)[0]];
           window.titleBar.updateTitle(`${data.user.displayName} - Strife Chat`);
           var state = {};
           state.conversationsData = this.state.conversationsData;
           state.conversationsData[this.props.conversationId] = data;
           this.setState(state);
-        });
+        }
+
         listeners.push(
           messagesRef
             .orderByChild("sentAt")
@@ -81,9 +90,23 @@ export default class CurrentConversation extends Component {
     }
   }
 
+  componentWillUnmount() {
+    
+    this.state.listeners.forEach(listener => firebase.database().off(listener))
+  }
+
   render() {
     if (this.state.currentConversation === "!exists") {
-      return <div>No conversations</div>;
+      return (
+        <div className="noConversations">
+          <div className="notFoundBar"></div>
+          <div className="notFoundContent">
+            <h2>
+              No conversations found, create some by clicking here <FaArrowRight /><ManageConnections className="buttonAddNotFound" existingConnections={this.props.existingConnections} />
+            </h2>
+          </div>
+        </div>
+      );
     } else if (this.props.conversationId) {
       return (
         <div className="currentConversation">
@@ -107,7 +130,8 @@ export default class CurrentConversation extends Component {
               timeout={3000} //3 secs
             />
           )}
-          {(typeof this.state.messages[this.props.conversationId] === "object") ? (
+          {typeof this.state.messages[this.props.conversationId] ===
+          "object" ? (
             <Messages
               contentEditableHeight={this.state.contentEditableHeight}
               data={this.state.messages[this.props.conversationId]}

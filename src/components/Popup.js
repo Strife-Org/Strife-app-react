@@ -43,7 +43,6 @@ export default function Popup(props) {
           <div className="popupInner">
             <button
               onClick={() => {
-                console.log("false");
                 popupRoot.classList.remove("visible");
                 popupContent = null;
                 console.log(popupContent);

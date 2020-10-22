@@ -3,11 +3,10 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import { saveAs } from "file-saver";
 
-import { markdown } from "markdown";
-
 import classnames from "classnames";
 
 import Popup from "./Popup"
+import Markdown from "./Markdown"
 
 function Message(props) {
   var [bytes, setBytes] = useState("");
@@ -21,7 +20,6 @@ function Message(props) {
       const result = path.match(/^[^/]+\/images\/[^/]+\/(\d+)\/(\d+)\/.+$/);
       width = result[1];
       height = result[2];
-      console.log(height);
     }
     fileName = fileRef.name;
     fileRef.getMetadata().then((metadata) => {
@@ -72,9 +70,7 @@ function Message(props) {
           </a>
         </div>
       ) : null}
-      <div
-        dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}
-      ></div>
+      <Markdown>{props.text}</Markdown>
     </div>
   );
 }

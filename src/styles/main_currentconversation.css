@@ -1,55 +1,73 @@
 .main .currentConversation {
-    grid-area: CurrentConversation;
-    background: white;
+  grid-area: CurrentConversation;
+  background: white;
 }
 
 .main .currentConversation .own a {
-    color: white;
+  color: white;
 }
 
 .main .currentConversation .other a {
-    color: blue;
+  color: blue;
 }
 
 .main .currentConversation .messages {
-    padding: 5px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-content: center;
-    height: calc(100vh - 110px);
-    box-sizing: border-box;
-    width: calc(100vw - max(25vw, 200px));
-    overflow: auto;
+  padding: 5px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: center;
+  height: calc(100vh - 110px);
+  box-sizing: border-box;
+  width: calc(100vw - max(25vw, 200px));
+  overflow: auto;
 }
 .main .currentConversation .message.own {
-    align-self: flex-start;
-    background: blue;
-    color: white;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+  align-self: flex-start;
+  background: blue;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }
 
 .main .currentConversation p {
-    margin: 0;
-    max-width: calc(0.7 * calc(100vw - max(25vw, 200px)));
-    word-wrap: break-word;
+  margin: 0;
+  max-width: calc(0.7 * calc(100vw - max(25vw, 200px)));
+  word-wrap: break-word;
 }
 
 .main .currentConversation .message.other {
-    align-self: flex-end;
-    background: gray;
-    color: white;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+  align-self: flex-end;
+  background: gray;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }
 
 .main .currentConversationBar {
-    background: #EDF2F5;
-    height: 50px;
-    width: 100%;
+  background: #edf2f5;
+  height: 50px;
+  width: 100%;
 }
 
+.notFoundBar {
+  background: #edf2f5;
+  height: 50px;
+  width: 100%;
+}
+
+.notFoundContent {
+  padding: 5px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: center;
+  height: calc(100vh - 110px);
+  box-sizing: border-box;
+  width: calc(100vw - max(25vw, 200px));
+  overflow: auto;
+}

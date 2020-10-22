@@ -25,13 +25,27 @@ function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true,
     },
-    show: false
+    show: false,
   });
 
-  if(!isDev) {
-  Menu.setApplicationMenu(null);
+  if (!isDev) {
+    Menu.setApplicationMenu(null);
+  } else {
+    // Install React Dev Tools
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS,
+    } = require("electron-devtools-installer");
+
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => {
+        console.log(`Added Extension:  ${name}`);
+      })
+      .catch((err) => {
+        console.log("An error occurred: ", err);
+      });
   }
-  
+
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
