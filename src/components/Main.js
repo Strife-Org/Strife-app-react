@@ -129,6 +129,14 @@ export default class Main extends Component {
                   existingConnections.push(connection);
                 }
               });
+              if(!existingConnections.find(connection => connection.id === this.state.currentConversation)) {
+                var latestConnection = "!exists";
+                existingConnections.every(connection => {
+                  if(connection.accepted === 1) return latestConnection = connection.id;
+                  return true;
+                })
+                this.setState({currentConversation: latestConnection})
+              }
               this.setState({
                 existingConnections,
               });
@@ -157,7 +165,7 @@ export default class Main extends Component {
           }}
           existingConnections={this.state.existingConnections}
         />
-        <CurrentConversation conversationId={this.state.currentConversation} />
+        <CurrentConversation existingConnections={this.state.existingConnections} conversationId={this.state.currentConversation} />
       </div>
     );
   }
