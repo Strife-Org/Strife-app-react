@@ -272,24 +272,14 @@
   margin-right: 10px;
 }
 
-.manageConnectionsContainer {
-  float: right;
-  vertical-align: top;
-  border: 0;
-  height: 32px;
-  width: 32px;
-  margin: 0;
-  padding: 0;
-  margin-right: 5px;
-}
-
 .manageConnectionsButton {
+  float: right;
+  margin-right: 10px;
   position: relative;
   border: none;
   outline: none;
   border-radius: 50%;
   height: 32px;
-  width: 100%;
   text-align: left;
   transition: ease-in-out 250ms;
   padding: 0;

@@ -7,6 +7,8 @@ import { markdown } from "markdown";
 
 import classnames from "classnames";
 
+import Popup from "./Popup"
+
 function Message(props) {
   var [bytes, setBytes] = useState("");
   var [fileType, setFileType] = useState();
@@ -16,10 +18,10 @@ function Message(props) {
     const path = fileRef.fullPath;
     var width, height;
     if (path.substr(29, 6) === "images") {
-      const result = path.match(/^[^\/]+\/images\/[^\/]+\/(\d+)\/(\d+)\/.+$/);
+      const result = path.match(/^[^/]+\/images\/[^/]+\/(\d+)\/(\d+)\/.+$/);
       width = result[1];
       height = result[2];
-      console.log(height)
+      console.log(height);
     }
     fileName = fileRef.name;
     fileRef.getMetadata().then((metadata) => {
@@ -38,34 +40,37 @@ function Message(props) {
   return (
     <div className={classnames("message", props.isOwner ? "own" : "other")}>
       {props.file ? (
-        <a
-          href={props.file}
-          download={fileName}
-          onClick={(e) => {
-            e.preventDefault();
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = "blob";
-            xhr.onload = function (event) {
-              var blob = xhr.response;
-              saveAs(blob, fileName);
-            };
-            xhr.open("GET", props.file);
-            xhr.send();
-          }}
-        >
+        <div>
           {fileType && fileType.startsWith("image") ? (
+            <Popup trigger={
             <div
               style={{
                 display: "block",
                 width: width,
-                height: Math.min(height, window.screen.height * 0.4)
+                height: Math.min(height, window.screen.height * 0.4),
               }}
             >
               <img alt="Received" src={props.file} />
-            </div>
+            </div>}><img alt="Received" className="full" src={props.file} /></Popup>
           ) : null}
-          <span className="byteCount">{bytesText}</span> {fileName}
-        </a>
+          <a
+            href={props.file}
+            download={fileName}
+            onClick={(e) => {
+              e.preventDefault();
+              var xhr = new XMLHttpRequest();
+              xhr.responseType = "blob";
+              xhr.onload = function (event) {
+                var blob = xhr.response;
+                saveAs(blob, fileName);
+              };
+              xhr.open("GET", props.file);
+              xhr.send();
+            }}
+          >
+            <span className="byteCount">{bytesText}</span> {fileName}
+          </a>
+        </div>
       ) : null}
       <div
         dangerouslySetInnerHTML={{ __html: markdown.toHTML(props.text) }}
