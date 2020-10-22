@@ -90,6 +90,11 @@ export default class CurrentConversation extends Component {
     }
   }
 
+  componentWillUnmount() {
+    
+    this.state.listeners.forEach(listener => firebase.database().off(listener))
+  }
+
   render() {
     if (this.state.currentConversation === "!exists") {
       return (
@@ -97,7 +102,7 @@ export default class CurrentConversation extends Component {
           <div className="notFoundBar"></div>
           <div className="notFoundContent">
             <h2>
-              No conversations found, create some by clicking here <FaArrowRight /><ManageConnections existingConnections={this.props.existingConnections} />
+              No conversations found, create some by clicking here <FaArrowRight /><ManageConnections className="buttonAddNotFound" existingConnections={this.props.existingConnections} />
             </h2>
           </div>
         </div>

@@ -13,7 +13,7 @@ const tabs = [
   { name: "Pending connection requests", component: ConnectionRequestsTab },
 ];
 
-export default function AddContact({existingConnections, closeTooltip}) {
+export default function AddContact({existingConnections, closeTooltip, className}) {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
   var pendingConnections = 0;
@@ -26,7 +26,7 @@ export default function AddContact({existingConnections, closeTooltip}) {
 
   return (
     <Popup
-      className="manageConnectionsContainer"
+      className={"manageConnectionsContainer "+className}
       trigger={
         <button className={classnames("manageConnectionsButton", (pendingConnections > 0 ? "pending" : ""))} style={{"--pendingConnections": `"${pendingConnections.toString()}`}} >
           <FaUserFriends viewBox="0 0 700 500" className="icon" />

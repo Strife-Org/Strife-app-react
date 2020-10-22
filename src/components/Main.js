@@ -152,6 +152,10 @@ export default class Main extends Component {
       }
     };
   }
+  
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   render() {
     return (
