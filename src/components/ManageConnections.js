@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Popup from "./Popup";
 import AddContactTab from "./AddContactTab";
@@ -15,6 +15,44 @@ const tabs = [
 
 export default function AddContact({existingConnections, closeTooltip, className}) {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [addSearch, setAddSearch] = useState("")
+  useEffect(() => {
+    return window.onUrl((full, type, value, next) => {
+      var found = false;
+      switch (type) {
+        case "@":
+          existingConnections.every(connection => {
+            if (connection.accepted !== 0) return true;
+            if(connection.users[value]) {
+              setCurrentTab(tabs[1]);
+              found = true;
+              return false;
+            }
+            return true
+          })
+          if(!found) {
+            found = true
+            setCurrentTab(tabs[0])
+            setAddSearch(value)
+          }
+          break;
+        case "#":
+          existingConnections.every(connection => {
+            if (connection.accepted !== 0) return true;
+            if(connection.id === value) {
+              setCurrentTab(tabs[1])
+              found = true;
+              return false
+            }
+            return true
+          })
+          break;
+        default:
+          next();
+      }
+      if(!found) next();
+    })
+  }, [existingConnections])
 
   var pendingConnections = 0;
   const ownUserId = firebase.auth().currentUser.uid;
@@ -58,7 +96,8 @@ export default function AddContact({existingConnections, closeTooltip, className
         closePopup: () => {
           close()
           closeTooltip()
-        }
+        },
+        addSearch: addSearch
       })}
       </div>
     )}
