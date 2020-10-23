@@ -4,9 +4,9 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 import FileUploader from "./FileUploader";
-import {FaRegPaperPlane} from "react-icons/fa";
+import { FaRegPaperPlane } from "react-icons/fa";
 
-import "../styles/main__currentconversation__messageform.css"
+import "../styles/main__currentconversation__messageform.css";
 
 function MessageForm(props) {
   const [message, setM] = useState("");
@@ -14,13 +14,20 @@ function MessageForm(props) {
 
   function setMessage(m) {
     setM(m);
-    if(m === "") contentEditableRef.current.innerText = m;
-    props.setContentEditableHeight(contentEditableRef.current.scrollHeight);
+    if (m === "") contentEditableRef.current.innerText = m;
+    const containerHeight = window.screen.height - 80;
+    const adjustedHeight = containerHeight/2 - (containerHeight/2 - 10 ) % 34;
+    console.log(adjustedHeight)
+    props.setContentEditableHeight(
+      Math.min(
+        contentEditableRef.current.scrollHeight + 2,
+        adjustedHeight + 2
+      )
+    );
   }
 
-  if(message.charCodeAt(0).toString(2) === "1010" && message.length === 1) {
-    setMessage("")
-    
+  if (message.charCodeAt(0).toString(2) === "1010" && message.length === 1) {
+    setMessage("");
   }
 
   const handleKeyPress = (event) => {
@@ -48,12 +55,15 @@ function MessageForm(props) {
   };
 
   return (
-    <div className="messageForm" >
-      <div onKeyPressCapture={handleKeyPress} className="contentEditableContainer">
+    <div className="messageForm">
+      <div
+        onKeyPressCapture={handleKeyPress}
+        className="contentEditableContainer"
+      >
         <div
           id="message"
           contentEditable="true"
-          style={{height: props.setContentEditableHeight}}
+          style={{ maxHeight: props.contentEditableHeight }}
           onInput={(e) => {
             setMessage(e.target.innerText);
           }}
@@ -67,9 +77,9 @@ function MessageForm(props) {
           {window.remoteConfig.getString("message_box_placeholder")}
         </div>
       </div>
-      <button type="submit" onClick={handleSubmit} className="sendButton" >
-          <FaRegPaperPlane viewBox="0 0 500 500" className="icon sendIcon" />
-        </button>
+      <button type="submit" onClick={handleSubmit} className="sendButton">
+        <FaRegPaperPlane viewBox="0 0 500 500" className="icon sendIcon" />
+      </button>
       <FileUploader
         commentDefault={message}
         handleSending={(fileLocation, text) => {
