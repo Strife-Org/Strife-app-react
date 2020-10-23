@@ -5,7 +5,7 @@ import "firebase/firestore";
 import Loader from "react-loader-spinner";
 import { FaPlus } from "react-icons/fa";
 
-export default ({ existingConnections, changeTab, closePopup }) => {
+export default ({ existingConnections, changeTab, closePopup, focusTab }) => {
   const [contactName, setContactName] = useState("");
   const [foundContacts, setFoundContacts] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -58,6 +58,30 @@ ipcRenderer.on(NOTIFICATION_SERVICE_ERROR, (_, error) => {
 var tokenDocId = null;
 var currentToken = null;
 
+var urlListeners = [];
+window.onUrl = (callback) => {
+  urlListeners.push(callback);
+  return () => {urlListeners.splice(urlListeners.indexOf(callback), 1)};
+};
+ipcRenderer.on("url", (e, url) => {
+  console.log(url);
+  const urlRegex = url.match(/^open-strife:\/*([@#])(.*)$/);
+  console.log(urlRegex);
+  if(urlListeners.length > 0) {
+    callListener(0, ...urlRegex)
+  }
+});
+
+const callListener = (num, ...regexParams) => {
+  urlListeners[num](
+    regexParams[0],
+    regexParams[1],
+    regexParams[2],
+    () => {
+      if (urlListeners.length > num + 1) callListener(num + 1, ...regexParams);
+    },
+    );
+};
 // Send FCM token to backend
 ipcRenderer.on(TOKEN_UPDATED, (_, token) => {
   currentToken = token;

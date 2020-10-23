@@ -66,76 +66,100 @@ function createWindow() {
     mainWindow.hide();
   });
 }
-// load window when app is ready
-app.on("ready", () => {
-  var AutoLaunch = require("auto-launch");
 
-  var autoLauncher = new AutoLaunch({
-    name: "Strife App",
-    path: path.join(__dirname, "../../..", app.name + ".exe"),
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (gotTheLock) {
+  // load window when app is ready
+  app.on("ready", () => {
+    var AutoLaunch = require("auto-launch");
+
+    var autoLauncher = new AutoLaunch({
+      name: "Strife App",
+      path: path.join(__dirname, "../../..", app.name + ".exe"),
+    });
+
+    autoLauncher.enable();
+
+    createWindow();
+
+    app.setAsDefaultProtocolClient("open-strife");
+
+    let trayIcon = nativeImage.createFromPath(
+      path.join(__dirname, "imgs/LogoColour.png")
+    );
+    trayIcon = trayIcon.resize({ width: 16, height: 16 });
+
+    tray = new Tray(trayIcon);
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: "Show App",
+        click() {
+          mainWindow.show();
+        },
+      },
+      {
+        label: "Quit App",
+        click() {
+          mainWindow.destroy();
+        },
+      },
+    ]);
+    tray.on("click", () => {
+      mainWindow.show();
+      mainWindow.focus();
+    });
+    tray.setToolTip("Strife");
+    tray.setContextMenu(contextMenu);
+  });
+  // set up for mac
+  app.on("window-all-closed", () => {
+    if (process.platform !== "darwin") {
+      app.quit();
+    }
+  });
+  app.on("activate", () => {
+    if (mainWindow === null) {
+      createWindow();
+    }
   });
 
-  autoLauncher.enable();
+  app.setAppUserModelId(process.execPath);
 
-  createWindow();
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    mainWindow.webContents.send("url", commandLine[2]);
+    if (mainWindow) {
+      mainWindow.show()
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
 
-  app.setAsDefaultProtocolClient("open-strife");
+  ipcMain.on("url", (event, url) => {
+    mainWindow.webContents.send("url", url)
+  })
 
-  let trayIcon = nativeImage.createFromPath(
-    path.join(__dirname, "imgs/LogoColour.png")
-  );
-  trayIcon = trayIcon.resize({ width: 16, height: 16 });
+  ipcMain.on("save-config", (event, newConfig) => {
+    appData.apiKey = newConfig.apiKey;
+    appData.save();
+  });
 
-  tray = new Tray(trayIcon);
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: "Show App",
-      click() {
-        mainWindow.show();
-      },
-    },
-    {
-      label: "Quit App",
-      click() {
-        mainWindow.destroy();
-      },
-    },
-  ]);
-  tray.on("click", () => {
+  ipcMain.on("show-window", () => {
     mainWindow.show();
     mainWindow.focus();
   });
-  tray.setToolTip("Strife");
-  tray.setContextMenu(contextMenu);
-});
-// set up for mac
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
-app.on("activate", () => {
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
 
-app.setAppUserModelId(process.execPath);
+  ipcMain.on("ready-for-data", () => {
+    mainWindow.webContents.send(
+      "user-data",
+      JSON.parse(JSON.stringify(appData))
+    );
+  });
 
-ipcMain.on("save-config", (event, newConfig) => {
-  appData.apiKey = newConfig.apiKey;
-  appData.save();
-});
-
-ipcMain.on("show-window", () => {
-  mainWindow.show();
-  mainWindow.focus();
-});
-
-ipcMain.on("ready-for-data", () => {
-  mainWindow.webContents.send("user-data", JSON.parse(JSON.stringify(appData)));
-});
-
-ipcMain.on("external", (event, url) => {
-  shell.openExternal(url);
-});
+  ipcMain.on("external", (event, url) => {
+    shell.openExternal(url);
+  });
+} else {
+  app.quit();
+}

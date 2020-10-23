@@ -13,6 +13,7 @@ export default class Main extends Component {
   };
 
   unsubscribe;
+  urlListener;
 
   async componentDidMount() {
     if (!firebase.auth().currentUser) {
@@ -129,19 +130,25 @@ export default class Main extends Component {
                   existingConnections.push(connection);
                 }
               });
-              if(!existingConnections.find(connection => connection.id === this.state.currentConversation)) {
+              if (
+                !existingConnections.find(
+                  (connection) =>
+                    connection.id === this.state.currentConversation
+                )
+              ) {
                 var latestConnection = "!exists";
-                existingConnections.every(connection => {
-                  if(connection.accepted === 1) return latestConnection = connection.id;
+                existingConnections.every((connection) => {
+                  if (connection.accepted === 1)
+                    return (latestConnection = connection.id);
                   return true;
-                })
-                this.setState({currentConversation: latestConnection})
+                });
+                this.setState({ currentConversation: latestConnection });
               }
               this.setState({
                 existingConnections,
               });
             });
-            u();
+          u();
         }
       });
     }
@@ -151,8 +158,39 @@ export default class Main extends Component {
         this.setState({ currentConversation: id });
       }
     };
+
+    window.onUrl((full, type, value, next) => {
+      var found = false
+      switch (type) {
+        case "@":
+          this.state.existingConnections.every((connection) => {
+            if (connection.accepted === 0) return true;
+            if (connection.users[value]) {
+              this.setState({ currentConversation: connection.id });
+              found = true
+              return false;
+            }
+            return true;
+          });
+          break;
+        case "#":
+          this.state.existingConnections.every((connection) => {
+            if (connection.accepted === 0) return true;
+            if (connection.id === value) {
+              this.setState({ currentConversation: connection.id });
+              found = true
+              return false;
+            }
+            return true;
+          });
+          break;
+          default:
+            next()
+      }
+      if(!found) next()
+    });
   }
-  
+
   componentWillUnmount() {
     this.unsubscribe();
   }
@@ -169,7 +207,10 @@ export default class Main extends Component {
           }}
           existingConnections={this.state.existingConnections}
         />
-        <CurrentConversation existingConnections={this.state.existingConnections} conversationId={this.state.currentConversation} />
+        <CurrentConversation
+          existingConnections={this.state.existingConnections}
+          conversationId={this.state.currentConversation}
+        />
       </div>
     );
   }
