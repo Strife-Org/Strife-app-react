@@ -20,6 +20,8 @@ Your app is ready to be packaged with electron!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+After this the electron build for your current system is created
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
